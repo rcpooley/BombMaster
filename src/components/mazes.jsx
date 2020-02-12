@@ -151,16 +151,23 @@ class Mazes extends React.Component {
         };
 
         this.onKeyPress = this.onKeyPress.bind(this);
+        this.onMouseDown = this.onMouseDown.bind(this);
     }
 
     componentDidMount() {
         document.addEventListener('keydown', this.onKeyPress, false);
+        document
+            .getElementById('mazeCanvas')
+            .addEventListener('mousedown', this.onMouseDown, false);
 
         this.drawMaze();
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.onKeyPress, false);
+        document
+            .getElementById('mazeCanvas')
+            .removeEventListener('mousedown', this.onMouseDown, false);
     }
 
     onKeyPress(e) {
@@ -172,9 +179,6 @@ class Mazes extends React.Component {
             );
             return;
         }
-
-        const { x, y } = this.state.pos;
-        const maze = MAZES[this.state.currentMaze];
 
         let xc = 0,
             yc = 0;
@@ -189,44 +193,67 @@ class Mazes extends React.Component {
             xc = 1;
         }
 
-        if (xc + yc !== 0) {
-            const np = {
-                x: bound(x + xc),
-                y: bound(y + yc)
-            };
-            let valid = true;
-            const shift = p => ({ x: p.x + 0.5, y: p.y + 0.5 });
-            maze.walls.forEach(([a, b]) => {
-                if (intersects(shift(this.state.pos), shift(np), a, b))
-                    valid = false;
-            });
-            if (!valid) {
-                const bw = this.state.badWalls.slice();
-                if (yc === -1) {
-                    bw.push(w(x, y, x + 1, y));
-                } else if (yc === 1) {
-                    bw.push(w(x, y + 1, x + 1, y + 1));
-                } else if (xc === -1) {
-                    bw.push(w(x, y, x, y + 1));
-                } else if (xc === 1) {
-                    bw.push(w(x + 1, y, x + 1, y + 1));
-                }
-                this.setState({ badWalls: bw }, () => this.drawMaze());
-                return;
-            }
-            const update = {
-                pos: np,
-                goal: this.state.goal,
-                badWalls: []
-            };
-            while (
-                update.pos.x === update.goal.x &&
-                update.pos.y === update.goal.y
-            ) {
-                update.goal = rp();
-            }
-            this.setState(update, () => this.drawMaze());
+        this.move(xc, yc);
+    }
+
+    onMouseDown(e) {
+        const c = document.getElementById('mazeCanvas');
+        const x = e.offsetX - c.width / 2;
+        const y = e.offsetY - c.height / 2;
+        let xc = 0,
+            yc = 0;
+        if (Math.abs(x) > Math.abs(y)) {
+            xc = x / Math.abs(x);
+        } else {
+            yc = y / Math.abs(y);
         }
+        this.move(xc, yc);
+    }
+
+    move(xc, yc) {
+        if (xc + yc === 0) {
+            return;
+        }
+
+        const { x, y } = this.state.pos;
+        const maze = MAZES[this.state.currentMaze];
+
+        const np = {
+            x: bound(x + xc),
+            y: bound(y + yc)
+        };
+        let valid = true;
+        const shift = p => ({ x: p.x + 0.5, y: p.y + 0.5 });
+        maze.walls.forEach(([a, b]) => {
+            if (intersects(shift(this.state.pos), shift(np), a, b))
+                valid = false;
+        });
+        if (!valid) {
+            const bw = this.state.badWalls.slice();
+            if (yc === -1) {
+                bw.push(w(x, y, x + 1, y));
+            } else if (yc === 1) {
+                bw.push(w(x, y + 1, x + 1, y + 1));
+            } else if (xc === -1) {
+                bw.push(w(x, y, x, y + 1));
+            } else if (xc === 1) {
+                bw.push(w(x + 1, y, x + 1, y + 1));
+            }
+            this.setState({ badWalls: bw }, () => this.drawMaze());
+            return;
+        }
+        const update = {
+            pos: np,
+            goal: this.state.goal,
+            badWalls: []
+        };
+        while (
+            update.pos.x === update.goal.x &&
+            update.pos.y === update.goal.y
+        ) {
+            update.goal = rp();
+        }
+        this.setState(update, () => this.drawMaze());
     }
 
     selectMaze(currentMaze) {
@@ -337,7 +364,22 @@ class Mazes extends React.Component {
                     <canvas id="mazeCanvas" width={300} height={300}></canvas>
                 </div>
                 <div className="text-center">
-                    Use WASD or arrow keys to move and SPACE to toggle walls
+                    Use WASD or arrow keys to move and SPACE to toggle walls.
+                    <br />
+                    On mobile, click on the sides of the maze to move.
+                    <br />
+                    <button
+                        onClick={() =>
+                            this.setState(
+                                {
+                                    displayWalls: !this.state.displayWalls
+                                },
+                                () => this.drawMaze()
+                            )
+                        }
+                    >
+                        Toggle
+                    </button>
                 </div>
             </div>
         );
