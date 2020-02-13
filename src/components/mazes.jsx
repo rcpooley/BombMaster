@@ -40,6 +40,10 @@ function intersects(w, x, y, z) {
     }
 }
 
+function randomGoal(maze) {
+    return maze.goals[rnd(maze.goals.length)];
+}
+
 const MAZES = [
     {
         circles: [p(0, 1), p(5, 2)],
@@ -59,7 +63,8 @@ const MAZES = [
             w(4, 5, 4, 6),
             w(5, 4, 5, 5),
             w(4, 3, 4, 4)
-        ]
+        ],
+        goals: [p(1, 5), p(4, 4), p(1, 3), p(5, 0), p(4, 3), p(4, 5)]
     },
     {
         circles: [p(4, 1), p(1, 3)],
@@ -84,7 +89,8 @@ const MAZES = [
             w(3, 4, 4, 4),
             w(3, 4, 3, 6),
             w(4, 5, 5, 5)
-        ]
+        ],
+        goals: [p(0, 0), p(2, 0), p(0, 5), p(5, 0), p(4, 3), p(1, 4)]
     },
     {
         circles: [p(3, 3), p(5, 3)],
@@ -100,7 +106,8 @@ const MAZES = [
             w(4, 0, 4, 1),
             w(5, 1, 5, 5),
             w(4, 3, 4, 6)
-        ]
+        ],
+        goals: [p(0, 1), p(1, 1), p(3, 0)]
     },
     {
         circles: [p(0, 0), p(0, 3)],
@@ -117,7 +124,8 @@ const MAZES = [
             w(1, 5, 4, 5),
             w(5, 4, 5, 6),
             w(3, 5, 3, 6)
-        ]
+        ],
+        goals: [p(2, 5), p(3, 5), p(2, 0), p(5, 5), p(1, 3), p(4, 2)]
     },
     {
         circles: [p(4, 2), p(3, 5)],
@@ -134,21 +142,38 @@ const MAZES = [
             w(2, 5, 5, 5),
             w(1, 3, 1, 6),
             w(1, 4, 3, 4)
-        ]
+        ],
+        goals: [p(0, 0), p(5, 1), p(2, 2), p(0, 5), p(4, 4), p(4, 3)]
     }
 ];
 
 class Mazes extends React.Component {
+    static getWallBetween(start, end) {
+        const { x, y } = start;
+        const xc = end.x - x;
+        const yc = end.y - y;
+        if (yc === -1) {
+            return w(x, y, x + 1, y);
+        } else if (yc === 1) {
+            return w(x, y + 1, x + 1, y + 1);
+        } else if (xc === -1) {
+            return w(x, y, x, y + 1);
+        } else if (xc === 1) {
+            return w(x + 1, y, x + 1, y + 1);
+        }
+    }
+
     constructor(props) {
         super(props);
 
         this.state = {
             currentMaze: 0,
             pos: rp(),
-            goal: rp(),
             displayWalls: false,
             badWalls: []
         };
+
+        this.state.goal = randomGoal(MAZES[this.state.currentMaze]);
 
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
@@ -174,9 +199,7 @@ class Mazes extends React.Component {
         const k = e.key.toLowerCase();
 
         if (k === ' ') {
-            this.setState({ displayWalls: !this.state.displayWalls }, () =>
-                this.drawMaze()
-            );
+            this.toggleWalls();
             return;
         }
 
@@ -210,55 +233,74 @@ class Mazes extends React.Component {
         this.move(xc, yc);
     }
 
+    getMaze(mazeIdx) {
+        return MAZES[mazeIdx || this.state.currentMaze];
+    }
+
+    isValidMove(start, end) {
+        const shift = p => ({ x: p.x + 0.5, y: p.y + 0.5 });
+        const sStart = shift(start);
+        const sEnd = shift(end);
+        const { walls } = this.getMaze();
+        for (let i = 0; i < walls.length; i++) {
+            const [a, b] = walls[i];
+            if (intersects(sStart, sEnd, a, b)) return false;
+        }
+        return true;
+    }
+
+    update(update) {
+        this.setState(update, () => this.drawMaze());
+    }
+
     move(xc, yc) {
         if (xc + yc === 0) {
             return;
         }
 
-        const { x, y } = this.state.pos;
-        const maze = MAZES[this.state.currentMaze];
-
-        const np = {
-            x: bound(x + xc),
-            y: bound(y + yc)
+        const { pos, goal, badWalls } = this.state;
+        const newPos = {
+            x: bound(pos.x + xc),
+            y: bound(pos.y + yc)
         };
-        let valid = true;
-        const shift = p => ({ x: p.x + 0.5, y: p.y + 0.5 });
-        maze.walls.forEach(([a, b]) => {
-            if (intersects(shift(this.state.pos), shift(np), a, b))
-                valid = false;
-        });
-        if (!valid) {
-            const bw = this.state.badWalls.slice();
-            if (yc === -1) {
-                bw.push(w(x, y, x + 1, y));
-            } else if (yc === 1) {
-                bw.push(w(x, y + 1, x + 1, y + 1));
-            } else if (xc === -1) {
-                bw.push(w(x, y, x, y + 1));
-            } else if (xc === 1) {
-                bw.push(w(x + 1, y, x + 1, y + 1));
-            }
-            this.setState({ badWalls: bw }, () => this.drawMaze());
+
+        if (!this.isValidMove(pos, newPos)) {
+            this.update({
+                badWalls: [...badWalls, Mazes.getWallBetween(pos, newPos)]
+            });
             return;
         }
+
+        const maze = this.getMaze();
         const update = {
-            pos: np,
-            goal: this.state.goal,
+            pos: newPos,
+            goal,
             badWalls: []
         };
         while (
             update.pos.x === update.goal.x &&
             update.pos.y === update.goal.y
         ) {
-            update.goal = rp();
+            update.goal = randomGoal(maze);
         }
-        this.setState(update, () => this.drawMaze());
+        this.update(update);
+    }
+
+    toggleWalls() {
+        this.update({ displayWalls: !this.state.displayWalls });
     }
 
     selectMaze(currentMaze) {
-        this.setState({ currentMaze }, () => {
-            this.drawMaze();
+        this.update(({ pos }) => {
+            const update = { currentMaze };
+            const maze = this.getMaze(currentMaze);
+            while (
+                !update.goal ||
+                (pos.x === update.goal.x && pos.y === update.goal.y)
+            ) {
+                update.goal = randomGoal(maze);
+            }
+            return update;
         });
     }
 
@@ -271,7 +313,7 @@ class Mazes extends React.Component {
         const triangleSize = 18;
         const wallThickness = 4;
 
-        const maze = MAZES[this.state.currentMaze];
+        const maze = this.getMaze();
         const loc = this.state.pos;
         const goal = this.state.goal;
 
@@ -368,18 +410,7 @@ class Mazes extends React.Component {
                     <br />
                     On mobile, click on the sides of the maze to move.
                     <br />
-                    <button
-                        onClick={() =>
-                            this.setState(
-                                {
-                                    displayWalls: !this.state.displayWalls
-                                },
-                                () => this.drawMaze()
-                            )
-                        }
-                    >
-                        Toggle
-                    </button>
+                    <button onClick={() => this.toggleWalls()}>Toggle</button>
                 </div>
             </div>
         );
