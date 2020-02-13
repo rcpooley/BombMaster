@@ -1,151 +1,5 @@
 import React from 'react';
-
-function p(x, y) {
-    return { x, y };
-}
-
-function w(x1, y1, x2, y2) {
-    return [p(x1, y1), p(x2, y2)];
-}
-
-function rnd(max) {
-    return parseInt(Math.random() * max);
-}
-
-function rp() {
-    return p(rnd(6), rnd(6));
-}
-
-function bound(x, min = 0, max = 5) {
-    return Math.min(Math.max(x, min), max);
-}
-
-function intersects(w, x, y, z) {
-    let a = w.x,
-        b = w.y,
-        c = x.x,
-        d = x.y,
-        p = y.x,
-        q = y.y,
-        r = z.x,
-        s = z.y;
-    let det, gamma, lambda;
-    det = (c - a) * (s - q) - (r - p) * (d - b);
-    if (det === 0) {
-        return false;
-    } else {
-        lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
-        gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
-        return 0 < lambda && lambda < 1 && 0 < gamma && gamma < 1;
-    }
-}
-
-function randomGoal(maze) {
-    return maze.goals[rnd(maze.goals.length)];
-}
-
-const MAZES = [
-    {
-        circles: [p(0, 1), p(5, 2)],
-        walls: [
-            w(1, 1, 2, 1),
-            w(4, 1, 6, 1),
-            w(2, 2, 5, 2),
-            w(1, 3, 2, 3),
-            w(4, 3, 5, 3),
-            w(1, 4, 5, 4),
-            w(1, 5, 2, 5),
-            w(4, 5, 5, 5),
-            w(1, 1, 1, 4),
-            w(2, 5, 2, 6),
-            w(3, 0, 3, 3),
-            w(3, 4, 3, 5),
-            w(4, 5, 4, 6),
-            w(5, 4, 5, 5),
-            w(4, 3, 4, 4)
-        ],
-        goals: [p(1, 5), p(4, 4), p(1, 3), p(5, 0), p(4, 3), p(4, 5)]
-    },
-    {
-        circles: [p(4, 1), p(1, 3)],
-        walls: [
-            w(0, 1, 1, 1),
-            w(2, 1, 3, 1),
-            w(3, 0, 3, 1),
-            w(2, 1, 2, 2),
-            w(1, 2, 2, 2),
-            w(1, 2, 1, 3),
-            w(1, 4, 1, 6),
-            w(1, 4, 2, 4),
-            w(2, 3, 2, 5),
-            w(2, 3, 3, 3),
-            w(3, 2, 3, 3),
-            w(3, 2, 5, 2),
-            w(4, 1, 4, 2),
-            w(5, 1, 6, 1),
-            w(5, 3, 5, 5),
-            w(4, 3, 5, 3),
-            w(4, 3, 4, 4),
-            w(3, 4, 4, 4),
-            w(3, 4, 3, 6),
-            w(4, 5, 5, 5)
-        ],
-        goals: [p(0, 0), p(2, 0), p(0, 5), p(5, 0), p(4, 3), p(1, 4)]
-    },
-    {
-        circles: [p(3, 3), p(5, 3)],
-        walls: [
-            w(0, 2, 1, 2),
-            w(1, 1, 1, 2),
-            w(1, 1, 2, 1),
-            w(2, 1, 2, 4),
-            w(1, 3, 1, 5),
-            w(1, 5, 3, 5),
-            w(3, 0, 3, 5),
-            w(3, 2, 5, 2),
-            w(4, 0, 4, 1),
-            w(5, 1, 5, 5),
-            w(4, 3, 4, 6)
-        ],
-        goals: [p(0, 1), p(1, 1), p(3, 0)]
-    },
-    {
-        circles: [p(0, 0), p(0, 3)],
-        walls: [
-            w(1, 1, 1, 4),
-            w(2, 0, 2, 2),
-            w(2, 1, 5, 1),
-            w(1, 3, 3, 3),
-            w(3, 2, 3, 3),
-            w(3, 2, 5, 2),
-            w(5, 2, 5, 3),
-            w(4, 3, 5, 3),
-            w(1, 4, 5, 4),
-            w(1, 5, 4, 5),
-            w(5, 4, 5, 6),
-            w(3, 5, 3, 6)
-        ],
-        goals: [p(2, 5), p(3, 5), p(2, 0), p(5, 5), p(1, 3), p(4, 2)]
-    },
-    {
-        circles: [p(4, 2), p(3, 5)],
-        walls: [
-            w(0, 1, 4, 1),
-            w(5, 1, 5, 2),
-            w(1, 2, 3, 2),
-            w(2, 2, 2, 3),
-            w(2, 3, 4, 3),
-            w(4, 2, 6, 2),
-            w(4, 2, 4, 4),
-            w(4, 4, 5, 4),
-            w(5, 3, 5, 5),
-            w(2, 5, 5, 5),
-            w(1, 3, 1, 6),
-            w(1, 4, 3, 4)
-        ],
-        goals: [p(0, 0), p(5, 1), p(2, 2), p(0, 5), p(4, 4), p(4, 3)]
-    }
-];
+import MAZES from '../maze';
 
 class Mazes extends React.Component {
     static getWallBetween(start, end) {
@@ -163,17 +17,54 @@ class Mazes extends React.Component {
         }
     }
 
+    static rnd(max) {
+        return parseInt(Math.random() * max);
+    }
+
+    static randomPoint() {
+        return { x: Mazes.rnd(6), y: Mazes.rnd(6) };
+    }
+
+    static randomGoal(maze) {
+        return maze.goals[Mazes.rnd(maze.goals.length)];
+    }
+
+    static bound(x, min = 0, max = 5) {
+        return Math.min(Math.max(x, min), max);
+    }
+
+    static intersects(w, x, y, z) {
+        let a = w.x,
+            b = w.y,
+            c = x.x,
+            d = x.y,
+            p = y.x,
+            q = y.y,
+            r = z.x,
+            s = z.y;
+        let det, gamma, lambda;
+        det = (c - a) * (s - q) - (r - p) * (d - b);
+        if (det === 0) {
+            return false;
+        } else {
+            lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
+            gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
+            return 0 < lambda && lambda < 1 && 0 < gamma && gamma < 1;
+        }
+    }
+
     constructor(props) {
         super(props);
 
+        const currentMaze = 0;
+
         this.state = {
-            currentMaze: 0,
-            pos: rp(),
+            currentMaze,
+            pos: Mazes.randomPoint(),
+            goal: Mazes.randomGoal(MAZES[currentMaze]),
             displayWalls: false,
             badWalls: []
         };
-
-        this.state.goal = randomGoal(MAZES[this.state.currentMaze]);
 
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
@@ -244,7 +135,7 @@ class Mazes extends React.Component {
         const { walls } = this.getMaze();
         for (let i = 0; i < walls.length; i++) {
             const [a, b] = walls[i];
-            if (intersects(sStart, sEnd, a, b)) return false;
+            if (Mazes.intersects(sStart, sEnd, a, b)) return false;
         }
         return true;
     }
@@ -260,8 +151,8 @@ class Mazes extends React.Component {
 
         const { pos, goal, badWalls } = this.state;
         const newPos = {
-            x: bound(pos.x + xc),
-            y: bound(pos.y + yc)
+            x: Mazes.bound(pos.x + xc),
+            y: Mazes.bound(pos.y + yc)
         };
 
         if (!this.isValidMove(pos, newPos)) {
@@ -281,7 +172,7 @@ class Mazes extends React.Component {
             update.pos.x === update.goal.x &&
             update.pos.y === update.goal.y
         ) {
-            update.goal = randomGoal(maze);
+            update.goal = Mazes.randomGoal(maze);
         }
         this.update(update);
     }
@@ -298,7 +189,7 @@ class Mazes extends React.Component {
                 !update.goal ||
                 (pos.x === update.goal.x && pos.y === update.goal.y)
             ) {
-                update.goal = randomGoal(maze);
+                update.goal = Mazes.randomGoal(maze);
             }
             return update;
         });
