@@ -2,18 +2,26 @@ import React from 'react';
 import MAZES from '../maze';
 
 class Mazes extends React.Component {
+    static p(x, y) {
+        return { x, y };
+    }
+
+    static w(x1, y1, x2, y2) {
+        return [Mazes.p(x1, y1), Mazes.p(x2, y2)];
+    }
+
     static getWallBetween(start, end) {
         const { x, y } = start;
         const xc = end.x - x;
         const yc = end.y - y;
         if (yc === -1) {
-            return w(x, y, x + 1, y);
+            return Mazes.w(x, y, x + 1, y);
         } else if (yc === 1) {
-            return w(x, y + 1, x + 1, y + 1);
+            return Mazes.w(x, y + 1, x + 1, y + 1);
         } else if (xc === -1) {
-            return w(x, y, x, y + 1);
+            return Mazes.w(x, y, x, y + 1);
         } else if (xc === 1) {
-            return w(x + 1, y, x + 1, y + 1);
+            return Mazes.w(x + 1, y, x + 1, y + 1);
         }
     }
 
@@ -22,7 +30,7 @@ class Mazes extends React.Component {
     }
 
     static randomPoint() {
-        return { x: Mazes.rnd(6), y: Mazes.rnd(6) };
+        return Mazes.p(Mazes.rnd(6), Mazes.rnd(6));
     }
 
     static randomGoal(maze) {
@@ -51,6 +59,82 @@ class Mazes extends React.Component {
             gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
             return 0 < lambda && lambda < 1 && 0 < gamma && gamma < 1;
         }
+    }
+
+    static renderMaze(ctx, size, maze, loc, goal, displayWalls, badWalls) {
+        const padding = 20;
+        const gridSize = 14;
+        const mazeSize = 6;
+        const circleRadius = 16;
+        const circleThickness = 5;
+        const triangleSize = 18;
+        const wallThickness = 4;
+
+        const s = size;
+        ctx.save();
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, s, s);
+
+        const innerSize = s - padding * 2;
+        ctx.translate(padding, padding);
+        ctx.fillStyle = '#040C1E';
+        ctx.fillRect(0, 0, innerSize, innerSize);
+
+        const pos = x => (x * innerSize) / mazeSize + innerSize / mazeSize / 2;
+
+        // draw grid
+        for (let i = 0; i < mazeSize; i++) {
+            for (let j = 0; j < mazeSize; j++) {
+                ctx.fillStyle =
+                    i === loc.x && j === loc.y ? 'white' : '#2C4551';
+                ctx.fillRect(
+                    pos(i) - gridSize / 2,
+                    pos(j) - gridSize / 2,
+                    gridSize,
+                    gridSize
+                );
+            }
+        }
+
+        // draw circles
+        ctx.strokeStyle = '#78B764';
+        ctx.lineWidth = circleThickness;
+        maze.circles.forEach(({ x, y }) => {
+            ctx.beginPath();
+            ctx.arc(pos(x), pos(y), circleRadius, 0, 2 * Math.PI);
+            ctx.stroke();
+        });
+
+        // draw goal
+        ctx.beginPath();
+        const g = { x: pos(goal.x), y: pos(goal.y) };
+        ctx.moveTo(g.x - triangleSize / 2, g.y + triangleSize / 2);
+        ctx.lineTo(g.x + triangleSize / 2, g.y + triangleSize / 2);
+        ctx.lineTo(g.x, g.y - triangleSize / 2);
+        ctx.closePath();
+        ctx.fillStyle = 'red';
+        ctx.fill();
+
+        // draw walls
+        const cpos = x => (x * innerSize) / mazeSize;
+        const drawWalls = walls => {
+            walls.forEach(([a, b]) => {
+                ctx.beginPath();
+                ctx.moveTo(cpos(a.x), cpos(a.y));
+                ctx.lineTo(cpos(b.x), cpos(b.y));
+                ctx.stroke();
+            });
+        };
+        if (displayWalls) {
+            ctx.strokeStyle = 'blue';
+            ctx.lineWidth = wallThickness;
+            drawWalls(maze.walls);
+        }
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = wallThickness;
+        drawWalls(badWalls);
+
+        ctx.restore();
     }
 
     constructor(props) {
@@ -196,85 +280,18 @@ class Mazes extends React.Component {
     }
 
     drawMaze() {
-        const padding = 20;
-        const gridSize = 14;
-        const mazeSize = 6;
-        const circleRadius = 16;
-        const circleThickness = 5;
-        const triangleSize = 18;
-        const wallThickness = 4;
-
-        const maze = this.getMaze();
-        const loc = this.state.pos;
-        const goal = this.state.goal;
-
         const c = document.getElementById('mazeCanvas');
-        const s = c.width;
         const ctx = c.getContext('2d');
-        ctx.save();
-        ctx.fillStyle = 'black';
-        ctx.fillRect(0, 0, s, s);
-
-        const innerSize = s - padding * 2;
-        ctx.translate(padding, padding);
-        ctx.fillStyle = '#040C1E';
-        ctx.fillRect(0, 0, innerSize, innerSize);
-
-        const pos = x => (x * innerSize) / mazeSize + innerSize / mazeSize / 2;
-
-        // draw grid
-        for (let i = 0; i < mazeSize; i++) {
-            for (let j = 0; j < mazeSize; j++) {
-                ctx.fillStyle =
-                    i === loc.x && j === loc.y ? 'white' : '#2C4551';
-                ctx.fillRect(
-                    pos(i) - gridSize / 2,
-                    pos(j) - gridSize / 2,
-                    gridSize,
-                    gridSize
-                );
-            }
-        }
-
-        // draw circles
-        ctx.strokeStyle = '#78B764';
-        ctx.lineWidth = circleThickness;
-        maze.circles.forEach(({ x, y }) => {
-            ctx.beginPath();
-            ctx.arc(pos(x), pos(y), circleRadius, 0, 2 * Math.PI);
-            ctx.stroke();
-        });
-
-        // draw goal
-        ctx.beginPath();
-        const g = { x: pos(goal.x), y: pos(goal.y) };
-        ctx.moveTo(g.x - triangleSize / 2, g.y + triangleSize / 2);
-        ctx.lineTo(g.x + triangleSize / 2, g.y + triangleSize / 2);
-        ctx.lineTo(g.x, g.y - triangleSize / 2);
-        ctx.closePath();
-        ctx.fillStyle = 'red';
-        ctx.fill();
-
-        // draw walls
-        const cpos = x => (x * innerSize) / mazeSize;
-        const drawWalls = walls => {
-            walls.forEach(([a, b]) => {
-                ctx.beginPath();
-                ctx.moveTo(cpos(a.x), cpos(a.y));
-                ctx.lineTo(cpos(b.x), cpos(b.y));
-                ctx.stroke();
-            });
-        };
-        if (this.state.displayWalls) {
-            ctx.strokeStyle = 'blue';
-            ctx.lineWidth = wallThickness;
-            drawWalls(maze.walls);
-        }
-        ctx.strokeStyle = 'red';
-        ctx.lineWidth = wallThickness;
-        drawWalls(this.state.badWalls);
-
-        ctx.restore();
+        const { pos, goal, displayWalls, badWalls } = this.state;
+        Mazes.renderMaze(
+            ctx,
+            c.width,
+            this.getMaze(),
+            pos,
+            goal,
+            displayWalls,
+            badWalls
+        );
     }
 
     render() {
