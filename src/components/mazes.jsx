@@ -86,7 +86,9 @@ class Mazes extends React.Component {
         for (let i = 0; i < mazeSize; i++) {
             for (let j = 0; j < mazeSize; j++) {
                 ctx.fillStyle =
-                    i === loc.x && j === loc.y ? 'white' : '#2C4551';
+                    loc != null && i === loc.x && j === loc.y
+                        ? 'white'
+                        : '#2C4551';
                 ctx.fillRect(
                     pos(i) - gridSize / 2,
                     pos(j) - gridSize / 2,
@@ -106,14 +108,16 @@ class Mazes extends React.Component {
         });
 
         // draw goal
-        ctx.beginPath();
-        const g = { x: pos(goal.x), y: pos(goal.y) };
-        ctx.moveTo(g.x - triangleSize / 2, g.y + triangleSize / 2);
-        ctx.lineTo(g.x + triangleSize / 2, g.y + triangleSize / 2);
-        ctx.lineTo(g.x, g.y - triangleSize / 2);
-        ctx.closePath();
-        ctx.fillStyle = 'red';
-        ctx.fill();
+        if (goal != null) {
+            ctx.beginPath();
+            const g = { x: pos(goal.x), y: pos(goal.y) };
+            ctx.moveTo(g.x - triangleSize / 2, g.y + triangleSize / 2);
+            ctx.lineTo(g.x + triangleSize / 2, g.y + triangleSize / 2);
+            ctx.lineTo(g.x, g.y - triangleSize / 2);
+            ctx.closePath();
+            ctx.fillStyle = 'red';
+            ctx.fill();
+        }
 
         // draw walls
         const cpos = x => (x * innerSize) / mazeSize;
@@ -147,7 +151,8 @@ class Mazes extends React.Component {
             pos: Mazes.randomPoint(),
             goal: Mazes.randomGoal(MAZES[currentMaze]),
             displayWalls: false,
-            badWalls: []
+            badWalls: [],
+            selectingMaze: false
         };
 
         this.onKeyPress = this.onKeyPress.bind(this);
@@ -171,6 +176,10 @@ class Mazes extends React.Component {
     }
 
     onKeyPress(e) {
+        if (this.state.selectingMaze) {
+            return;
+        }
+
         const k = e.key.toLowerCase();
 
         if (k === ' ') {
@@ -196,6 +205,15 @@ class Mazes extends React.Component {
 
     onMouseDown(e) {
         const c = document.getElementById('mazeCanvas');
+
+        if (this.state.selectingMaze) {
+            const third = c.width / 3;
+            const x = parseInt(e.offsetX / third);
+            const y = parseInt(e.offsetY / third);
+            this.selectMaze(y * 3 + x);
+            return;
+        }
+
         const x = e.offsetX - c.width / 2;
         const y = e.offsetY - c.height / 2;
         let xc = 0,
@@ -266,8 +284,9 @@ class Mazes extends React.Component {
     }
 
     selectMaze(currentMaze) {
+        currentMaze = Mazes.bound(currentMaze, 0, 8);
         this.update(({ pos }) => {
-            const update = { currentMaze };
+            const update = { currentMaze, selectingMaze: false, badWalls: [] };
             const maze = this.getMaze(currentMaze);
             while (
                 !update.goal ||
@@ -282,33 +301,54 @@ class Mazes extends React.Component {
     drawMaze() {
         const c = document.getElementById('mazeCanvas');
         const ctx = c.getContext('2d');
-        const { pos, goal, displayWalls, badWalls } = this.state;
-        Mazes.renderMaze(
-            ctx,
-            c.width,
-            this.getMaze(),
-            pos,
-            goal,
-            displayWalls,
-            badWalls
-        );
+        const { pos, goal, displayWalls, badWalls, selectingMaze } = this.state;
+
+        if (selectingMaze) {
+            const fakeCanvas = document.createElement('canvas');
+            fakeCanvas.width = c.width;
+            fakeCanvas.height = c.height;
+            const fakeCtx = fakeCanvas.getContext('2d');
+            const size = c.width / 3;
+            for (let i = 0; i < MAZES.length; i++) {
+                const x = i % 3;
+                const y = parseInt(i / 3);
+                Mazes.renderMaze(
+                    fakeCtx,
+                    fakeCanvas.width,
+                    MAZES[i],
+                    null,
+                    null,
+                    false,
+                    []
+                );
+                ctx.drawImage(fakeCanvas, x * size, y * size, size, size);
+            }
+        } else {
+            Mazes.renderMaze(
+                ctx,
+                c.width,
+                this.getMaze(),
+                pos,
+                goal,
+                displayWalls,
+                badWalls
+            );
+        }
     }
 
     render() {
         return (
             <div>
                 <div className="text-center">
-                    Select a maze:{' '}
-                    <select
-                        value={this.state.currentMaze}
-                        onChange={e => this.selectMaze(e.target.value)}
+                    <button
+                        onClick={() =>
+                            this.update({
+                                selectingMaze: !this.state.selectingMaze
+                            })
+                        }
                     >
-                        {MAZES.map((m, idx) => (
-                            <option key={idx} value={idx}>
-                                Maze {idx + 1}
-                            </option>
-                        ))}
-                    </select>
+                        Change Maze
+                    </button>
                 </div>
                 <div className="text-center">
                     <canvas id="mazeCanvas" width={300} height={300}></canvas>
