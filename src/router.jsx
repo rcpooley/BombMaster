@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Nav from './nav';
 import Home from './components/home';
 import Mazes from './components/mazes';
+import ComplicatedWires from './components/complicatedWires';
 
 class Router extends React.Component {
     constructor(props) {
@@ -15,10 +16,16 @@ class Router extends React.Component {
                     path: '/mazes',
                     name: 'Mazes',
                     component: Mazes
+                },
+                {
+                    path: '/complicatedwires',
+                    name: 'Complicated Wires',
+                    component: ComplicatedWires
                 }
             ]
         };
     }
+
     render() {
         return (
             <div>
