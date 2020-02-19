@@ -29,7 +29,9 @@ class Router extends React.Component {
     render() {
         return (
             <div id="router" className="d-flex flex-column">
-                <Nav routes={this.state.routes} />
+                <div>
+                    <Nav routes={this.state.routes} />
+                </div>
                 <div className="flex-grow-1 overflow-auto">
                     <Switch>
                         {this.state.routes.map(r => (
