@@ -12,9 +12,12 @@
     "license": "ISC",
     "devDependencies": {
         "parcel-bundler": "^1.12.4",
+        "postcss-nested": "^4.2.1",
         "rimraf": "^3.0.2"
     },
     "dependencies": {
+        "jquery": "^3.4.1",
+        "popper.js": "^1.16.1",
         "react": "^16.12.0",
         "react-dom": "^16.12.0",
         "react-router-dom": "^5.1.2"

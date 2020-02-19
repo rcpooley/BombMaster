@@ -1,0 +1,32 @@
+#router {
+    width: 100%;
+    height: 100%;
+}
+
+#complicatedWires {
+    table.wireChart {
+        margin: auto;
+
+        td {
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        img {
+            width: 30px;
+
+            &.off {
+                opacity: 0.1;
+            }
+        }
+
+        .placeholder {
+            width: 60px;
+        }
+    }
+
+    .chartTitle {
+        font-weight: bold;
+        font-size: 18px;
+    }
+}
