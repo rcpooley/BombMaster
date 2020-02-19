@@ -26,7 +26,12 @@ class Nav extends React.Component {
                 >
                     <ul className="navbar-nav mr-auto">
                         {this.props.routes.map(r => (
-                            <li key={r.path} className={`nav-item`}>
+                            <li
+                                key={r.path}
+                                className={`nav-item`}
+                                data-toggle="collapse"
+                                data-target="#navbarSupportedContent"
+                            >
                                 <Link className="nav-link" to={r.path}>
                                     {r.name}
                                 </Link>
