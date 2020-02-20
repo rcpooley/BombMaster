@@ -172,23 +172,22 @@ class ComplicatedWires extends React.Component {
     renderRules() {
         const rules = [
             {
-                name: 'Cut',
+                name: "Cut & Don't Cut",
                 data: (
                     <div>
-                        No rule, just memorize the three wires you always cut:
-                        White, White Star, Red Star.
-                    </div>
-                )
-            },
-            {
-                name: "Don't Cut",
-                data: (
-                    <div>
-                        Again not a rule, but the easiest one to memorize is
-                        don't cut when everything is true (LED Red Blue Star).
-                        Eventually memorize the other ones, but it's not as
-                        important since you shouldn't cut a wire if none of the
-                        other rules apply.
+                        It's pretty much just straight memorization, but the two
+                        wires that can be memorized together are
+                        <div className="text-center">
+                            Red Star = Cut
+                            <br />
+                            Blue Star = Don't Cut
+                        </div>
+                        Other than that make sure you memorize that White and
+                        White Star are cut. It's not as important to memorize
+                        the other Don't Cuts since you shouldn't cut a wire if
+                        none of the other rules apply, but another easy one to
+                        memorize is don't cut when everything is true (LED Red
+                        Blue Star).
                     </div>
                 )
             },
