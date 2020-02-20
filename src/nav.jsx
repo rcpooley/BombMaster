@@ -30,7 +30,7 @@ class Nav extends React.Component {
                                 key={r.path}
                                 className={`nav-item`}
                                 data-toggle="collapse"
-                                data-target="#navbarSupportedContent"
+                                data-target=".navbar-collapse.show"
                             >
                                 <Link className="nav-link" to={r.path}>
                                     {r.name}
