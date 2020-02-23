@@ -14,20 +14,48 @@ class MazeSelector extends React.Component {
             />
         ));
 
+        const { selected, onSelect } = this.props;
+
         return (
             <div className="mazeSelector">
                 {[...Array(3).keys()].map(r => (
                     <div key={r}>
-                        {[...Array(3).keys()].map(c => (
-                            <div
-                                key={c}
-                                className="canvasWrap"
-                                onClick={() => this.props.onSelect(r * 3 + c)}
-                            >
-                                {mazes[r * 3 + c]}
-                                <div className="cover" />
-                            </div>
-                        ))}
+                        {[...Array(3).keys()].map(c => {
+                            const idx = r * 3 + c;
+                            return (
+                                <div
+                                    key={c}
+                                    className="canvasWrap"
+                                    onClick={() => {
+                                        if (Array.isArray(selected)) {
+                                            const clone = selected.slice();
+                                            if (clone.includes(idx)) {
+                                                clone.splice(
+                                                    clone.indexOf(idx),
+                                                    1
+                                                );
+                                            } else {
+                                                clone.push(idx);
+                                            }
+                                            onSelect(clone);
+                                        } else {
+                                            onSelect(idx);
+                                        }
+                                    }}
+                                >
+                                    {mazes[idx]}
+                                    <div
+                                        className={
+                                            Array.isArray(selected)
+                                                ? selected.includes(idx)
+                                                    ? 'sel active'
+                                                    : 'sel'
+                                                : 'cover'
+                                        }
+                                    />
+                                </div>
+                            );
+                        })}
                     </div>
                 ))}
             </div>

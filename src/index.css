@@ -42,14 +42,26 @@ canvas {
         display: inline-block;
         position: relative;
 
-        &:hover .cover {
+        .cover,
+        .sel {
             position: absolute;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: blue;
             opacity: 0.3;
+        }
+
+        .sel {
+            background-color: red;
+
+            &.active {
+                background-color: green;
+            }
+        }
+
+        &:hover .cover {
+            background-color: blue;
         }
     }
 }

@@ -1,12 +1,7 @@
 import React from 'react';
-import Maze from './maze';
 import MazeSelector from './mazeSelector';
 import KeyListener from '../keyListener';
-import MazeState from '../../maze/maze';
-import MU from '../../maze/mazeUtil';
-import DIR from '../../maze/directions';
-
-const SIZE = 300;
+import MazeNavigator from './mazeNavigator';
 
 class Study extends React.Component {
     constructor(props) {
@@ -17,8 +12,7 @@ class Study extends React.Component {
 
     initState(mazeIdx) {
         return {
-            maze: new MazeState(mazeIdx),
-            badWalls: [],
+            mazeIdx,
             displayWalls: false,
             selectingMaze: false
         };
@@ -29,52 +23,7 @@ class Study extends React.Component {
 
         if (k === ' ') {
             this.toggleWalls();
-            return;
         }
-
-        let dir = null;
-        if (k === 'w' || k === 'arrowup') {
-            dir = DIR.UP;
-        } else if (k === 'a' || k === 'arrowleft') {
-            dir = DIR.LEFT;
-        } else if (k === 's' || k === 'arrowdown') {
-            dir = DIR.DOWN;
-        } else if (k === 'd' || k === 'arrowright') {
-            dir = DIR.RIGHT;
-        }
-        if (dir) {
-            this.move(dir);
-        }
-    }
-
-    onMouseDown(e) {
-        const x = e.offsetX - SIZE / 2;
-        const y = e.offsetY - SIZE / 2;
-        let dir = null;
-        if (Math.abs(x) > Math.abs(y)) {
-            dir = x > 0 ? DIR.RIGHT : DIR.LEFT;
-        } else {
-            dir = y > 0 ? DIR.DOWN : DIR.UP;
-        }
-        this.move(dir);
-    }
-
-    move(dir) {
-        if (this.state.selectingMaze) {
-            return;
-        }
-
-        let { maze, badWalls } = this.state;
-        const bw = maze.move(dir);
-        if (bw) {
-            badWalls = badWalls.slice();
-            if (badWalls.filter(w => MU.equal(w, bw)).length === 0) {
-                badWalls.push(bw);
-            }
-        } else {
-            badWalls = [];
-        }
-        this.update({ badWalls });
     }
 
     toggleWalls() {
@@ -82,23 +31,18 @@ class Study extends React.Component {
             return;
         }
 
-        this.update({ displayWalls: !this.state.displayWalls });
-    }
-
-    update(update) {
-        this.setState({ maze: this.state.maze, ...(update || {}) });
+        this.setState({ displayWalls: !this.state.displayWalls });
     }
 
     render() {
-        const { badWalls, displayWalls, maze, selectingMaze } = this.state;
-        const { mazeIdx, pos, goal } = maze;
+        const { mazeIdx, displayWalls, selectingMaze } = this.state;
         return (
             <div className="text-center">
                 <KeyListener onKeyPress={e => this.onKeyPress(e)} />
                 <div className="mb-1">
                     <button
                         onClick={() =>
-                            this.update({
+                            this.setState({
                                 selectingMaze: !this.state.selectingMaze
                             })
                         }
@@ -113,14 +57,10 @@ class Study extends React.Component {
                         }}
                     />
                 ) : (
-                    <Maze
-                        size={SIZE}
+                    <MazeNavigator
                         mazeIdx={mazeIdx}
-                        pos={pos}
-                        goal={goal}
-                        badWalls={badWalls}
                         displayWalls={displayWalls}
-                        onMouseDown={e => this.onMouseDown(e)}
+                        disableInput={selectingMaze}
                     />
                 )}
                 <div>

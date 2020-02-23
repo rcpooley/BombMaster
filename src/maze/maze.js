@@ -3,8 +3,9 @@ import MAZES from './mazes';
 import DIR from './directions';
 
 class Maze {
-    constructor(mazeIdx) {
+    constructor(mazeIdx, randomGoal = false) {
         this.mazeIdx = mazeIdx;
+        this.randomGoal = randomGoal;
         this.pos = MU.randomPoint();
         this.goal = null;
         this._updateGoal();
@@ -15,6 +16,9 @@ class Maze {
     }
 
     _randomGoal() {
+        if (this.randomGoal) {
+            return MU.randomPoint();
+        }
         return MU.randomGoal(this._getMaze());
     }
 
