@@ -95,7 +95,7 @@ class Study extends React.Component {
         return (
             <div className="text-center">
                 <KeyListener onKeyPress={e => this.onKeyPress(e)} />
-                <div>
+                <div className="mb-1">
                     <button
                         onClick={() =>
                             this.update({
