@@ -1,10 +1,9 @@
 import React from 'react';
-import Util from '../util';
-import LedOn from '../res/led_on.png';
-import LedOff from '../res/led_off.png';
-import Star from '../res/star.png';
+import LedOn from '../../res/led_on.png';
+import LedOff from '../../res/led_off.png';
+import Star from '../../res/star.png';
 
-class ComplicatedWires extends React.Component {
+class Study extends React.Component {
     renderLegend() {
         return (
             <div>
@@ -251,23 +250,18 @@ class ComplicatedWires extends React.Component {
 
     render() {
         return (
-            <div id="complicatedWires" className="container">
-                <div className="row">
-                    <div className="offset-xl-3 col-xl-6 offset-lg-2 col-lg-8 offset-md-1 col-md-10 offset-sm-0 col-sm-12">
-                        <div>
-                            Complicated wires is pure memorization. Here is a
-                            chart that simplifies the Venn diagram from the
-                            manual.
-                        </div>
-                        {this.renderChart()}
-                        {this.renderLegend()}
-                        {this.renderMemorizing()}
-                        {this.renderRules()}
-                    </div>
+            <div id="complicatedWires">
+                <div>
+                    Complicated wires is pure memorization. Here is a chart that
+                    simplifies the Venn diagram from the manual.
                 </div>
+                {this.renderChart()}
+                {this.renderLegend()}
+                {this.renderMemorizing()}
+                {this.renderRules()}
             </div>
         );
     }
 }
 
-export default ComplicatedWires;
+export default Study;
