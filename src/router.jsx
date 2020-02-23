@@ -2,8 +2,8 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Nav from './nav';
 import Home from './components/home';
-import Mazes from './components/mazes';
-import ComplicatedWires from './components/complicatedWires';
+import Mazes from './components/mazes/index';
+import ComplicatedWires from './components/complicatedWires/index';
 
 class Router extends React.Component {
     constructor(props) {
