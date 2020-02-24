@@ -2,6 +2,7 @@ import React from 'react';
 import LedOn from '../../res/led_on.png';
 import LedOff from '../../res/led_off.png';
 import Star from '../../res/star.png';
+import Util from '../../util';
 
 class Study extends React.Component {
     renderLegend() {
@@ -251,6 +252,11 @@ class Study extends React.Component {
     render() {
         return (
             <div id="complicatedWires">
+                <div className="text-center">
+                    <a href={Util.manual(13)} target="_blank">
+                        Manual
+                    </a>
+                </div>
                 <div>
                     Complicated wires is pure memorization. Here is a chart that
                     simplifies the Venn diagram from the manual.

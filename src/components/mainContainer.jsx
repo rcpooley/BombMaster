@@ -26,7 +26,7 @@ class MainContainer extends React.Component {
         return (
             <div className="container" id={this.props.id}>
                 <div className="row">
-                    <div className="offset-xl-3 col-xl-6 offset-lg-2 col-lg-8 offset-md-1 col-md-10 offset-sm-0 col-sm-12">
+                    <div className="offset-xl-2 col-xl-8 offset-lg-2 col-lg-8 offset-md-1 col-md-10 offset-sm-0 col-sm-12">
                         {Array.isArray(this.props.children) ? (
                             <div>
                                 {this.renderNavBar()}
