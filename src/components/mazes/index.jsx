@@ -6,7 +6,7 @@ import Practice from './practice';
 class Mazes extends React.Component {
     render() {
         return (
-            <MainContainer>
+            <MainContainer id="mazes">
                 <Study />
                 <Practice />
             </MainContainer>

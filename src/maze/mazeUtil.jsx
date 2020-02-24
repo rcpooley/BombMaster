@@ -64,6 +64,14 @@ class MazeUtil {
         }
         return a.x === b.x && a.y === b.y;
     }
+
+    static contains(points, p) {
+        for (let i = 0; i < points.length; i++) {
+            const { x, y } = points[i];
+            if (x === p.x && y === p.y) return true;
+        }
+        return false;
+    }
 }
 
 export default MazeUtil;

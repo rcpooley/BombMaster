@@ -2,11 +2,20 @@ import React from 'react';
 import MAZES from '../../maze/mazes';
 
 /**
- * Props: {mazeIdx, size, pos, goal, displayWalls, badWalls}
+ * Props: {mazeIdx, size, pos, goal, displayWalls, badWalls, visited}
  */
 
 class Maze extends React.Component {
-    static renderMaze(ctx, size, maze, loc, goal, displayWalls, badWalls) {
+    static renderMaze(
+        ctx,
+        size,
+        maze,
+        loc,
+        goal,
+        displayWalls,
+        badWalls,
+        visited
+    ) {
         const padding = 20;
         const gridSize = 14;
         const mazeSize = 6;
@@ -28,12 +37,21 @@ class Maze extends React.Component {
         const pos = x => (x * innerSize) / mazeSize + innerSize / mazeSize / 2;
 
         // draw grid
+        const visitArr = (visited || []).map(p => `${p.x}${p.y}`);
         for (let i = 0; i < mazeSize; i++) {
             for (let j = 0; j < mazeSize; j++) {
-                ctx.fillStyle =
-                    loc != null && i === loc.x && j === loc.y
-                        ? 'white'
-                        : '#2C4551';
+                ctx.fillStyle = '#2C4551';
+
+                // Gold if visited
+                if (visitArr.includes(`${i}${j}`)) {
+                    ctx.fillStyle = 'gold';
+                }
+
+                // White for current position
+                if (loc && i === loc.x && j === loc.y) {
+                    ctx.fillStyle = 'white';
+                }
+
                 ctx.fillRect(
                     pos(i) - gridSize / 2,
                     pos(j) - gridSize / 2,
@@ -120,7 +138,15 @@ class Maze extends React.Component {
     drawMaze() {
         const c = this.mazeRef.current;
         const ctx = c.getContext('2d');
-        const { pos, goal, displayWalls, badWalls, mazeIdx, size } = this.props;
+        const {
+            pos,
+            goal,
+            displayWalls,
+            badWalls,
+            mazeIdx,
+            size,
+            visited
+        } = this.props;
 
         const fakeCanvas = document.createElement('canvas');
         fakeCanvas.width = 300;
@@ -134,7 +160,8 @@ class Maze extends React.Component {
             pos,
             goal,
             displayWalls,
-            badWalls
+            badWalls,
+            visited
         );
 
         ctx.drawImage(fakeCanvas, 0, 0, size, size);
