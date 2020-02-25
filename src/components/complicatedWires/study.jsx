@@ -3,11 +3,12 @@ import LedOn from '../../res/led_on.png';
 import LedOff from '../../res/led_off.png';
 import Star from '../../res/star.png';
 import Util from '../../util';
+import P from '../paragraph';
 
 class Study extends React.Component {
     renderLegend() {
         return (
-            <div>
+            <P>
                 <div className="chartTitle">Legend</div>
                 <div>
                     <table className="mx-auto">
@@ -35,7 +36,7 @@ class Study extends React.Component {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </P>
         );
     }
 
@@ -60,7 +61,7 @@ class Study extends React.Component {
         ];
 
         return (
-            <div>
+            <P>
                 <table className="wireChart">
                     <tbody>
                         <tr>
@@ -94,7 +95,7 @@ class Study extends React.Component {
                         ))}
                     </tbody>
                 </table>
-            </div>
+            </P>
         );
     }
 
@@ -155,7 +156,7 @@ class Study extends React.Component {
             }
         ];
         return (
-            <div>
+            <P>
                 <div className="chartTitle">Wires</div>
                 {sections.map(s => (
                     <div key={s.name}>
@@ -165,7 +166,7 @@ class Study extends React.Component {
                         {s.data}
                     </div>
                 ))}
-            </div>
+            </P>
         );
     }
 
@@ -235,32 +236,32 @@ class Study extends React.Component {
         ];
 
         return (
-            <div>
+            <P>
                 <div className="chartTitle">Memorizing Rules</div>
                 {rules.map(s => (
-                    <div key={s.name}>
+                    <P key={s.name}>
                         <div className="font-weight-bold text-center">
                             {s.name}
                         </div>
                         {s.data}
-                    </div>
+                    </P>
                 ))}
-            </div>
+            </P>
         );
     }
 
     render() {
         return (
             <div id="complicatedWires">
-                <div className="text-center">
+                <P className="text-center">
                     <a href={Util.manual(13)} target="_blank">
                         Manual
                     </a>
-                </div>
-                <div>
-                    Complicated wires is pure memorization. Here is a chart that
-                    simplifies the Venn diagram from the manual.
-                </div>
+                </P>
+                <P>
+                    Here is a chart that simplifies the Venn diagram from the
+                    manual.
+                </P>
                 {this.renderChart()}
                 {this.renderLegend()}
                 {this.renderMemorizing()}

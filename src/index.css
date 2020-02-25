@@ -2,6 +2,10 @@ canvas {
     vertical-align: top;
 }
 
+.myParagraph:not(:first-child) {
+    margin-top: 10px;
+}
+
 #router {
     width: 100%;
     height: 100%;

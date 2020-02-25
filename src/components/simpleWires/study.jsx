@@ -1,16 +1,17 @@
 import React from 'react';
 import Util from '../../util';
+import P from '../paragraph';
 
 class Study extends React.Component {
     render() {
         return (
             <div>
-                <div className="text-center">
+                <P className="text-center">
                     <a href={Util.manual(5)} target="_blank">
                         Manual
                     </a>
-                </div>
-                <div>
+                </P>
+                <P>
                     In simple wires, there are 5 wire colors
                     <ol>
                         <li>(B) Black</li>
@@ -27,8 +28,8 @@ class Study extends React.Component {
                         <li>(LC) Last wire is a certain color</li>
                         <li>Serial number is odd</li>
                     </ol>
-                </div>
-                <div>
+                </P>
+                <P>
                     When memorizing simple wires, it helped me to separate the
                     conditions from the cut sequences. You are only ever asked
                     to cut a wire in a specific position, or the last wire of a
@@ -45,16 +46,15 @@ class Study extends React.Component {
                     Note that the last cut of each group does not have an
                     associated condition since it only applies if none of the
                     other conditions are met.
-                </div>
-                <br />
-                <div>
+                </P>
+                <P>
                     Now for memorizing conditions, the first thing to note is
                     for 4-6 wires, the first condition always requires that the
                     serial number is odd, and serial number is odd isn't
                     required by any other conditions. The remaining conditions
                     can be encoded as follows:
-                </div>
-                <div className="simpleGroup">
+                </P>
+                <P className="simpleGroup">
                     <div>
                         <div>
                             {Util.bold('3 wires:')}
@@ -92,8 +92,8 @@ class Study extends React.Component {
                             </ol>
                         </div>
                     </div>
-                </div>
-                <div>
+                </P>
+                <P>
                     For 4-wires, you can optionally swap or combine conditions 2
                     and 3 since they both result in cutting the first wire:
                     <div className="pl-4">
@@ -105,11 +105,11 @@ class Study extends React.Component {
                         </ol>
                         {Util.bold('Cut sequence:')} red 142
                     </div>
-                </div>
-                <div>
+                </P>
+                <P>
                     Finally, remember that B = black, U = blue, and 2C is two{' '}
                     {Util.bold('or more')} wires of a certain color.
-                </div>
+                </P>
             </div>
         );
     }
