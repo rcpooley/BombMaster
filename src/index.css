@@ -66,24 +66,61 @@ canvas {
     }
 }
 
-.learnPracticeBar {
+#mazes {
+    .mazeMode {
+        display: flex;
+        justify-content: center;
+
+        > div {
+            width: 150px;
+        }
+    }
+}
+
+.optionsBar {
     border: 1px solid black;
     margin-bottom: 5px;
     cursor: pointer;
+    display: flex;
 
     > div {
         display: inline-flex;
-        width: 50%;
-        height: 50px;
         justify-content: center;
         align-items: center;
+        flex-grow: 1;
 
-        &:first-child {
-            border-right: 1px solid black;
+        &:not(:first-child) {
+            border-left: 1px solid black;
         }
 
         &.active {
             background-color: #1f7cff;
+        }
+    }
+}
+
+#simpleWires {
+    .simpleGroup {
+        display: flex;
+        flex-wrap: wrap;
+
+        > div {
+            display: flex;
+            flex-grow: 1;
+
+            > div {
+                flex-grow: 1;
+                text-align: center;
+                min-width: 100px;
+            }
+        }
+    }
+
+    .smallOpt {
+        display: inline-block;
+
+        > div > div {
+            padding: 2px 5px;
         }
     }
 }

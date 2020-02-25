@@ -8,15 +8,18 @@ import DIR from '../../maze/directions';
 const SIZE = 300;
 
 /**
- * props: {mazeIdx, displayWalls, disableInput, randomGoal}
+ * props: {mazeIdx, displayWalls, disableInput, randomGoal, showVisited}
  */
 class MazeNavigator extends React.Component {
     constructor(props) {
         super(props);
 
+        const maze = new MazeState(props.mazeIdx, props.randomGoal);
+
         this.state = {
-            maze: new MazeState(props.mazeIdx, props.randomGoal),
-            badWalls: []
+            maze,
+            badWalls: [],
+            visited: [maze.pos]
         };
     }
 
@@ -51,16 +54,18 @@ class MazeNavigator extends React.Component {
     }
 
     move(dir) {
-        if (this.props.disableInput) {
+        const { disableInput, showVisited, onHit, onGoal } = this.props;
+        if (disableInput) {
             return;
         }
 
-        let { maze, badWalls } = this.state;
+        let { maze, badWalls, visited } = this.state;
         const oldGoal = maze.goal;
         const bw = maze.move(dir);
 
-        if (!MU.equal(oldGoal, maze.goal) && this.props.onGoal) {
-            this.props.onGoal();
+        if (!MU.contains(visited, maze.pos)) {
+            visited = visited.slice();
+            visited.push(maze.pos);
         }
 
         if (bw) {
@@ -68,19 +73,27 @@ class MazeNavigator extends React.Component {
             if (badWalls.filter(w => MU.equal(w, bw)).length === 0) {
                 badWalls.push(bw);
             }
-            if (this.props.onHit) {
-                this.props.onHit();
+            if (onHit) {
+                onHit();
             }
         } else {
             badWalls = [];
         }
-        this.setState({ badWalls });
+        this.setState({ badWalls, visited }, () => {
+            if (onGoal) {
+                if (!showVisited && !MU.equal(oldGoal, maze.goal)) {
+                    onGoal();
+                } else if (showVisited && visited.length === 36) {
+                    onGoal();
+                }
+            }
+        });
     }
 
     render() {
-        const { badWalls, maze } = this.state;
+        const { badWalls, maze, visited } = this.state;
         const { mazeIdx, pos, goal } = maze;
-        const { displayWalls } = this.props;
+        const { displayWalls, showVisited } = this.props;
 
         return (
             <div>
@@ -89,8 +102,9 @@ class MazeNavigator extends React.Component {
                     size={SIZE}
                     mazeIdx={mazeIdx}
                     pos={pos}
-                    goal={goal}
+                    goal={showVisited ? null : goal}
                     badWalls={badWalls}
+                    visited={showVisited ? visited : []}
                     displayWalls={displayWalls}
                     onMouseDown={e => this.onMouseDown(e)}
                 />

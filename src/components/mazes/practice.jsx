@@ -1,14 +1,22 @@
 import React from 'react';
 import MazeSelector from './mazeSelector';
 import MazeNavigator from './mazeNavigator';
+import OptionsBar from '../optionsBar';
+import Util from '../../util';
 
 class Practice extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        this.state = this.initState();
+    }
+
+    initState() {
+        return {
             started: false,
+            finished: false,
             mazes: [...Array(9).keys()],
+            mode: null,
             mazeIdx: -1,
             key: 0,
             strikes: 0,
@@ -21,22 +29,51 @@ class Practice extends React.Component {
         return mazes[Math.floor(Math.random() * mazes.length)];
     }
 
+    isFull() {
+        return this.state.mode === 1;
+    }
+
     nextMaze() {
         const { mazes, mazeIdx, key, completed } = this.state;
-        let newIdx = this.randomMaze();
-        while (newIdx === mazeIdx && mazes.length > 1) {
-            newIdx = this.randomMaze();
+
+        const setNewIdx = () => {
+            const { mazes } = this.state;
+            let newIdx = this.randomMaze();
+            while (newIdx === mazeIdx && mazes.length > 1) {
+                newIdx = this.randomMaze();
+            }
+            this.setState({
+                mazeIdx: newIdx,
+                key: 1 - key,
+                started: true,
+                completed: completed + 1
+            });
+        };
+
+        if (this.isFull() && mazeIdx >= 0) {
+            if (mazes.length === 1) {
+                this.setState({ finished: true, completed: completed + 1 });
+            } else {
+                const newMazes = mazes.slice();
+                newMazes.splice(newMazes.indexOf(mazeIdx), 1);
+                this.setState({ mazes: newMazes }, setNewIdx);
+            }
+        } else {
+            setNewIdx();
         }
-        this.setState({
-            mazeIdx: newIdx,
-            key: 1 - key,
-            started: true,
-            completed: completed + 1
-        });
     }
 
     render() {
-        const { started, mazes, mazeIdx, key, strikes, completed } = this.state;
+        const {
+            started,
+            mazes,
+            mazeIdx,
+            key,
+            strikes,
+            completed,
+            mode,
+            finished
+        } = this.state;
         if (!started) {
             return (
                 <div className="text-center">
@@ -58,6 +95,21 @@ class Practice extends React.Component {
                         selected={mazes}
                         onSelect={mazes => this.setState({ mazes })}
                     />
+                    <div className="mazeMode mt-1">
+                        Mode:
+                        <div className="ml-1">
+                            <OptionsBar
+                                options={['Normal', 'Full']}
+                                selected={mode}
+                                onSelect={mode => this.setState({ mode })}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        {Util.bold('Normal:')} Navigate to the goal
+                        <br />
+                        {Util.bold('Full:')} Fully navigate the maze
+                    </div>
                     <div className="mt-1">
                         <button
                             disabled={mazes.length === 0}
@@ -72,15 +124,24 @@ class Practice extends React.Component {
 
         return (
             <div className="text-center">
-                <MazeNavigator
-                    key={key}
-                    mazeIdx={mazeIdx}
-                    displayWalls={false}
-                    disableInput={false}
-                    randomGoal={true}
-                    onGoal={() => this.nextMaze()}
-                    onHit={() => this.setState({ strikes: strikes + 1 })}
-                />
+                {finished ? (
+                    <div>
+                        <button onClick={() => this.setState(this.initState())}>
+                            Start Over
+                        </button>
+                    </div>
+                ) : (
+                    <MazeNavigator
+                        key={key}
+                        mazeIdx={mazeIdx}
+                        displayWalls={false}
+                        disableInput={false}
+                        randomGoal={true}
+                        showVisited={this.isFull()}
+                        onGoal={() => this.nextMaze()}
+                        onHit={() => this.setState({ strikes: strikes + 1 })}
+                    />
+                )}
                 <div>Strikes: {strikes}</div>
                 <div>Completed: {completed}</div>
             </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import MazeSelector from './mazeSelector';
 import KeyListener from '../keyListener';
 import MazeNavigator from './mazeNavigator';
+import Util from '../../util';
 
 class Study extends React.Component {
     constructor(props) {
@@ -38,6 +39,11 @@ class Study extends React.Component {
         const { mazeIdx, displayWalls, selectingMaze } = this.state;
         return (
             <div className="text-center">
+                <div className="text-center">
+                    <a href={Util.manual(15)} target="_blank">
+                        Manual
+                    </a>
+                </div>
                 <KeyListener onKeyPress={e => this.onKeyPress(e)} />
                 <div className="mb-1">
                     <button

@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Nav from './nav';
 import Home from './components/home';
+import SimpleWires from './components/simpleWires/index';
 import Mazes from './components/mazes/index';
 import ComplicatedWires from './components/complicatedWires/index';
 
@@ -12,6 +13,11 @@ class Router extends React.Component {
         this.state = {
             routes: [
                 { path: '/', name: 'Home', exact: true, component: Home },
+                {
+                    path: '/simplewires',
+                    name: 'Simple Wires',
+                    component: SimpleWires
+                },
                 {
                     path: '/mazes',
                     name: 'Mazes',

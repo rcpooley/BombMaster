@@ -3,10 +3,10 @@ import MainContainer from '../mainContainer';
 import Study from './study';
 import Practice from './practice';
 
-class Mazes extends React.Component {
+class SimpleWires extends React.Component {
     render() {
         return (
-            <MainContainer id="mazes">
+            <MainContainer id="simpleWires">
                 <Study />
                 <Practice />
             </MainContainer>
@@ -14,4 +14,4 @@ class Mazes extends React.Component {
     }
 }
 
-export default Mazes;
+export default SimpleWires;
