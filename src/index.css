@@ -128,3 +128,25 @@ canvas {
         }
     }
 }
+
+#keypads {
+    .symbol {
+        display: inline-block;
+
+        img {
+            border: 1px solid black;
+        }
+
+        div {
+            text-align: center;
+            /* font-size: 12px; */
+        }
+    }
+
+    .symbolContainer {
+        .symbol {
+            margin: 2px;
+            margin-bottom: 10px;
+        }
+    }
+}

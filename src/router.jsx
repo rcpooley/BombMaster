@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Nav from './nav';
 import Home from './components/home';
 import SimpleWires from './components/simpleWires/index';
+import Keypads from './components/keypads/index';
 import Mazes from './components/mazes/index';
 import ComplicatedWires from './components/complicatedWires/index';
 
@@ -17,6 +18,11 @@ class Router extends React.Component {
                     path: '/simplewires',
                     name: 'Simple Wires',
                     component: SimpleWires
+                },
+                {
+                    path: '/keypads',
+                    name: 'Keypads',
+                    component: Keypads
                 },
                 {
                     path: '/mazes',

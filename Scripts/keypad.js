@@ -44,6 +44,21 @@ pads.forEach(p => {
     });
 });
 
+const padMap = {};
+all.forEach(sym => {
+    padMap[sym] = [];
+    pads.forEach((p, idx) => {
+        if (p.includes(sym)) {
+            padMap[sym].push(idx);
+        }
+    });
+});
+
+const unique = all.filter(sym => padMap[sym].length === 2);
+
+console.log(all.length);
+console.log(unique.length, unique);
+
 const multi = [];
 
 // Iterate over all pairs of symbols
