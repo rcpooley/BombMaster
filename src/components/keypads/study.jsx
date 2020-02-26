@@ -1,25 +1,8 @@
 import React from 'react';
 import P from '../paragraph';
 import Symbol from './symbol';
-
-const SETS = [
-    [
-        ['magnify', 'at', 'lambda', 'lightning', 'yield', 'hj', 'revc'],
-        ['Look', 'at', 'lamb', 'light,', 'stop', 'his', 'cat']
-    ],
-    [
-        [
-            'reve',
-            'magnify',
-            'revc',
-            'loopty',
-            'emptystar',
-            'hj',
-            'questionmark'
-        ],
-        ['Ey', 'look', 'see', 'shooting', 'star', 'huh', '?']
-    ]
-];
+import Util from '../../util';
+import SETS from './sets';
 
 class Study extends React.Component {
     renderSymbols(symbols, labels = []) {
@@ -35,6 +18,11 @@ class Study extends React.Component {
     render() {
         return (
             <div>
+                <P className="text-center">
+                    <a href={Util.manual(7)} target="_blank">
+                        Manual
+                    </a>
+                </P>
                 <P>
                     There are 6 columns with 7 symbols in each column. In total
                     there are 27 unique symbols.
@@ -86,16 +74,11 @@ class Study extends React.Component {
                     </p>
                     <div>
                         {SETS.map(([ids, labs], idx) => (
-                            <div>
+                            <div key={idx}>
                                 <strong>Set {idx + 1}</strong>
                                 {this.renderSymbols(ids, labs)}
                             </div>
                         ))}
-                    </div>
-                    <div>
-                        <strong>Sets 3-6</strong>
-                        <br />
-                        Coming soon
                     </div>
                 </P>
             </div>

@@ -8,6 +8,7 @@ class Keypads extends React.Component {
         return (
             <MainContainer id="keypads">
                 <Study />
+                <Practice />
             </MainContainer>
         );
     }

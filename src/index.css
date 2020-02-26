@@ -131,6 +131,7 @@ canvas {
 
 #keypads {
     .symbol {
+        position: relative;
         display: inline-block;
 
         img {
@@ -139,14 +140,39 @@ canvas {
 
         div {
             text-align: center;
-            /* font-size: 12px; */
+        }
+
+        .cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.75;
+            &.good {
+                background-color: green;
+            }
+
+            &.bad {
+                background-color: red;
+            }
         }
     }
 
-    .symbolContainer {
+    .symbolContainer > .symbol {
+        margin: 2px;
+        margin-bottom: 10px;
+    }
+
+    .symbolLine {
+        .symbol:not(:first-child) > img {
+            border-left: 0;
+        }
+
+        &:not(:first-child) img {
+            border-top: 0;
+        }
+
         .symbol {
-            margin: 2px;
-            margin-bottom: 10px;
+            cursor: pointer;
         }
     }
 }
