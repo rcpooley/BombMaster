@@ -1,6 +1,7 @@
 import React from 'react';
 import Util from '../../util';
 import P from '../paragraph';
+import FlexGroup from '../flexGroup';
 
 class Study extends React.Component {
     render() {
@@ -54,44 +55,46 @@ class Study extends React.Component {
                     required by any other conditions. The remaining conditions
                     can be encoded as follows:
                 </P>
-                <P className="simpleGroup">
-                    <div>
-                        <div>
-                            {Util.bold('3 wires:')}
-                            <ol>
-                                <li>0R</li>
-                                <li>LW</li>
-                                <li>2U</li>
-                            </ol>
-                        </div>
-                        <div>
-                            {Util.bold('4 wires:')}
-                            <ol>
-                                <li>2R</li>
-                                <li>LY 0R</li>
-                                <li>1U</li>
-                                <li>2Y</li>
-                            </ol>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            {Util.bold('5 wires:')}
-                            <ol>
-                                <li>LB</li>
-                                <li>1R 2Y</li>
-                                <li>0B</li>
-                            </ol>
-                        </div>
-                        <div>
-                            {Util.bold('6 wires:')}
-                            <ol>
-                                <li>0Y</li>
-                                <li>1Y 2W</li>
-                                <li>0R</li>
-                            </ol>
-                        </div>
-                    </div>
+                <P className="text-center ol-left">
+                    <FlexGroup inline={true}>
+                        <FlexGroup inline={true} minWidth={100}>
+                            <div>
+                                {Util.bold('3 wires:')}
+                                <ol>
+                                    <li>0R</li>
+                                    <li>LW</li>
+                                    <li>2U</li>
+                                </ol>
+                            </div>
+                            <div>
+                                {Util.bold('4 wires:')}
+                                <ol>
+                                    <li>2R</li>
+                                    <li>LY 0R</li>
+                                    <li>1U</li>
+                                    <li>2Y</li>
+                                </ol>
+                            </div>
+                        </FlexGroup>
+                        <FlexGroup inline={true} minWidth={100}>
+                            <div>
+                                {Util.bold('5 wires:')}
+                                <ol>
+                                    <li>LB</li>
+                                    <li>1R 2Y</li>
+                                    <li>0B</li>
+                                </ol>
+                            </div>
+                            <div>
+                                {Util.bold('6 wires:')}
+                                <ol>
+                                    <li>0Y</li>
+                                    <li>1Y 2W</li>
+                                    <li>0R</li>
+                                </ol>
+                            </div>
+                        </FlexGroup>
+                    </FlexGroup>
                 </P>
                 <P>
                     For 4-wires, you can optionally swap or combine conditions 2

@@ -6,6 +6,53 @@ canvas {
     margin-top: 10px;
 }
 
+.ol-left ol {
+    text-align: left;
+}
+
+.flexGroup {
+    display: flex;
+    flex-wrap: wrap;
+
+    &.inline {
+        display: inline-flex;
+    }
+
+    > div {
+        flex-grow: 1;
+
+        &.flexCenter {
+            text-align: center;
+
+            > div {
+                display: inline-block;
+            }
+        }
+    }
+}
+
+.optionsBar {
+    border: 1px solid black;
+    margin-bottom: 5px;
+    cursor: pointer;
+    display: flex;
+
+    > div {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+
+        &:not(:first-child) {
+            border-left: 1px solid black;
+        }
+
+        &.active {
+            background-color: #1f7cff;
+        }
+    }
+}
+
 #router {
     width: 100%;
     height: 100%;
@@ -39,37 +86,6 @@ canvas {
     }
 }
 
-.mazeSelector {
-    cursor: pointer;
-
-    .canvasWrap {
-        display: inline-block;
-        position: relative;
-
-        .cover,
-        .sel {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.3;
-        }
-
-        .sel {
-            background-color: red;
-
-            &.active {
-                background-color: green;
-            }
-        }
-
-        &:hover .cover {
-            background-color: blue;
-        }
-    }
-}
-
 #mazes {
     .mazeMode {
         display: flex;
@@ -79,26 +95,35 @@ canvas {
             width: 150px;
         }
     }
-}
 
-.optionsBar {
-    border: 1px solid black;
-    margin-bottom: 5px;
-    cursor: pointer;
-    display: flex;
+    .mazeSelector {
+        cursor: pointer;
 
-    > div {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        flex-grow: 1;
+        .canvasWrap {
+            display: inline-block;
+            position: relative;
 
-        &:not(:first-child) {
-            border-left: 1px solid black;
-        }
+            .cover,
+            .sel {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 0.3;
+            }
 
-        &.active {
-            background-color: #1f7cff;
+            .sel {
+                background-color: red;
+
+                &.active {
+                    background-color: green;
+                }
+            }
+
+            &:hover .cover {
+                background-color: blue;
+            }
         }
     }
 }
