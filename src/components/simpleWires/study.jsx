@@ -55,7 +55,7 @@ class Study extends React.Component {
                     required by any other conditions. The remaining conditions
                     can be encoded as follows:
                 </P>
-                <P className="text-center ol-left">
+                <P className="text-center list-left">
                     <FlexGroup inline={true}>
                         <FlexGroup inline={true} minWidth={100}>
                             <div>

@@ -17,8 +17,9 @@ class FlexGroup extends React.Component {
                     inline ? ' inline' : ''
                 }`}
             >
-                {children.map(c => (
+                {children.map((c, idx) => (
                     <div
+                        key={idx}
                         className={`${center ? 'flexCenter' : ''}${
                             childClass ? ` ${childClass}` : ''
                         }`}

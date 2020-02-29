@@ -5,8 +5,9 @@ import Home from './components/home';
 import SimpleWires from './components/simpleWires/index';
 import Button from './components/button/index';
 import Keypads from './components/keypads/index';
-import Mazes from './components/mazes/index';
+import Memory from './components/memory/index';
 import ComplicatedWires from './components/complicatedWires/index';
+import Mazes from './components/mazes/index';
 
 class Router extends React.Component {
     constructor(props) {
@@ -31,14 +32,19 @@ class Router extends React.Component {
                     component: Keypads
                 },
                 {
-                    path: '/mazes',
-                    name: 'Mazes',
-                    component: Mazes
+                    path: '/memory',
+                    name: 'Memory',
+                    component: Memory
                 },
                 {
                     path: '/complicatedwires',
                     name: 'Complicated Wires',
                     component: ComplicatedWires
+                },
+                {
+                    path: '/mazes',
+                    name: 'Mazes',
+                    component: Mazes
                 }
             ]
         };

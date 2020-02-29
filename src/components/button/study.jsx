@@ -71,14 +71,15 @@ class Study extends React.Component {
                         conditions. I memorized:
                         <div className="text-center">
                             <strong>
-                                "Blue abort, 2 det, white car, 3 fork, yellow,
+                                "Blue abort, 2 det, white car, 3 FRK, yellow,
                                 red hold"
                             </strong>
                         </div>
                         After saying it enough times you won't need any tricks
                         to remember it, but at the beginning I imagined a car
                         blowing up for "det white car", and remembered that
-                        after 2, you skip a condition and now you're at 3.
+                        after 2, you skip a condition and now you're at 3. And
+                        for "3 FRK", FRK is three letters.
                     </div>
                 </P>
                 <P>

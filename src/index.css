@@ -6,8 +6,23 @@ canvas {
     margin-top: 10px;
 }
 
-.ol-left ol {
-    text-align: left;
+.myHeading {
+    font-weight: bold;
+
+    &.n1 {
+        font-size: 18px;
+    }
+
+    &.n4 {
+        font-size: 16px;
+    }
+}
+
+.list-left {
+    ol,
+    ul {
+        text-align: left;
+    }
 }
 
 .flexGroup {
@@ -198,6 +213,99 @@ canvas {
 
         .symbol {
             cursor: pointer;
+        }
+    }
+}
+
+#memory {
+    .practice {
+        text-align: center;
+        display: flex;
+
+        > div {
+            max-width: 350px;
+            margin: auto;
+            display: flex;
+
+            .wrap {
+                border: 1px solid black;
+                display: flex;
+                justify-content: center;
+                background-color: #6b7272;
+
+                &:not(:first-child) {
+                    border-top: 0;
+                }
+            }
+
+            .display {
+                background-color: #365d4d;
+                color: #f0f4f7;
+                width: 100px;
+                height: 100px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 80px;
+                border: 3px solid #242e28;
+                margin: 5px;
+
+                > div {
+                    margin-top: -8px;
+                }
+            }
+
+            .buttons {
+                .button {
+                    background-color: #b9a789;
+                    color: #3b2e1c;
+                    margin: 5px;
+                    font-size: 50px;
+                    padding: 0 10px;
+                    border: 3px solid #3b2e1c;
+                    cursor: pointer;
+                    position: relative;
+
+                    &.incorrect .cover {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: red;
+                        opacity: 0.5;
+                    }
+                }
+            }
+
+            .stagesWrap {
+                position: relative;
+                width: 30px;
+
+                > div {
+                    position: absolute;
+                    bottom: 0;
+                    width: 30px;
+                    background-color: #332f35;
+                    height: 143px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    > div {
+                        position: relative;
+                        left: -1px;
+                        width: 19px;
+                        background-color: #241c23;
+                        flex-grow: 1;
+                        margin: 6px 0;
+
+                        &.active {
+                            background-color: #c7f789;
+                        }
+                    }
+                }
+            }
         }
     }
 }

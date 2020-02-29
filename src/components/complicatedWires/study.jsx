@@ -4,12 +4,13 @@ import LedOff from '../../res/led_off.png';
 import Star from '../../res/star.png';
 import Util from '../../util';
 import P from '../paragraph';
+import H from '../heading';
 
 class Study extends React.Component {
     renderLegend() {
         return (
             <P>
-                <div className="chartTitle">Legend</div>
+                <H n={1}>Legend</H>
                 <div>
                     <table className="mx-auto">
                         <tbody>
@@ -157,12 +158,10 @@ class Study extends React.Component {
         ];
         return (
             <P>
-                <div className="chartTitle">Wires</div>
+                <H n={1}>Wires</H>
                 {sections.map(s => (
                     <div key={s.name}>
-                        <div className="font-weight-bold text-center">
-                            {s.name}
-                        </div>
+                        <H center={true}>{s.name}</H>
                         {s.data}
                     </div>
                 ))}
@@ -237,12 +236,10 @@ class Study extends React.Component {
 
         return (
             <P>
-                <div className="chartTitle">Memorizing Rules</div>
+                <H n={1}>Memorizing Rules</H>
                 {rules.map(s => (
                     <P key={s.name}>
-                        <div className="font-weight-bold text-center">
-                            {s.name}
-                        </div>
+                        <H center={true}>{s.name}</H>
                         {s.data}
                     </P>
                 ))}
