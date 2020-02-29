@@ -25,6 +25,11 @@ canvas {
     }
 }
 
+.hor-scroll {
+    overflow: auto;
+    max-width: 100%;
+}
+
 .flexGroup {
     display: flex;
     flex-wrap: wrap;

@@ -90,7 +90,7 @@ class Practice extends React.Component {
     }
 
     onClick(pos) {
-        const { buttons, history, stage } = this.state;
+        const { buttons, history, stage, display } = this.state;
 
         if (stage > 5) {
             return;
@@ -106,7 +106,7 @@ class Practice extends React.Component {
         const lab = buttons[pos - 1];
 
         const newHistory = history.slice();
-        newHistory.push({ pos, lab, buttons });
+        newHistory.push({ pos, lab, buttons, display });
 
         let update = {
             stage: stage + 1,
@@ -210,23 +210,28 @@ class Practice extends React.Component {
                         </button>
                     </P>
                     {showHistory && (
-                        <P className="d-inline-block">
+                        <P className="d-inline-block hor-scroll">
                             <table className="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Stage</th>
                                         <th scope="col">Position</th>
                                         <th scope="col">Label</th>
+                                        <th scope="col">Display</th>
                                         <th scope="col">Buttons</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {history.map(
-                                        ({ pos, lab, buttons }, idx) => (
+                                        (
+                                            { pos, lab, buttons, display },
+                                            idx
+                                        ) => (
                                             <tr key={idx}>
                                                 <th scope="row">{idx + 1}</th>
                                                 <td>{pos}</td>
                                                 <td>{lab}</td>
+                                                <td>{display}</td>
                                                 <td>{buttons.join('')}</td>
                                             </tr>
                                         )
