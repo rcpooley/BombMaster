@@ -14,8 +14,7 @@ class Study extends React.Component {
                     </a>
                 </P>
                 <P>
-                    For Memory, the button you need to press can be referred to
-                    by:
+                    For Memory, the rules can refer to buttons by:
                     <ol>
                         <li>(P#) Position</li>
                         <li>(L4) Label = "4"</li>
@@ -82,7 +81,7 @@ class Study extends React.Component {
                         displays since it makes the in-game memorizing easier as
                         there is now only one position to memorize (since stages
                         1 and 2 will have the same position). For displays 3 and
-                        1, I remember 3114: display 3 → position 1, display 1 →
+                        1, I remember 314: display 3 → position 1, display 1 →
                         label 4. You can remember this by thinking of pi: 3.14.
                     </P>
                     <P>
@@ -121,6 +120,12 @@ class Study extends React.Component {
                         it might be easier to remember all the labels
                         individually or as a 4-digit number. Experiment and see
                         what works best for you.
+                    </P>
+                    <P>
+                        In stage 4, once you decide the position of the button
+                        to click, you can immediately forget about stage 1 and 2
+                        positions and just focus on the labels of the previous
+                        stages, so you can complete stage 5 as fast as possible.
                     </P>
                     <P>
                         In stage 2, if you get display 2 or 4, you only have to

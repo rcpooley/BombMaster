@@ -29,43 +29,48 @@ class WireInput extends React.Component {
         const state = value || DEFAULT_VALUE;
 
         return (
-            <div className="d-flex align-items-center justify-content-center">
-                <div>
+            <div>
+                <div className="d-inline-flex align-items-center hor-scroll">
                     <div>
-                        <div className="smallOpt">
-                            <OptionsBar
-                                options={[
-                                    { id: '0', label: 'no' },
-                                    { id: '1', label: 'exactly one' },
-                                    { id: '2', label: 'two or more' },
-                                    { id: 'L', label: 'last wire is' },
-                                    { id: 'X', label: 'serial is odd' },
-                                    { id: '_', label: 'otherwise' }
-                                ]}
-                                selected={state[0]}
-                                onSelect={val => this.change(0, val)}
-                            />
+                        <div>
+                            <div className="smallOpt">
+                                <OptionsBar
+                                    options={[
+                                        { id: '0', label: 'no' },
+                                        { id: '1', label: 'exactly one' },
+                                        { id: '2', label: 'two or more' },
+                                        { id: 'L', label: 'last wire is' },
+                                        { id: 'X', label: 'serial is odd' },
+                                        { id: '_', label: 'otherwise' }
+                                    ]}
+                                    selected={state[0]}
+                                    onSelect={val => this.change(0, val)}
+                                />
+                            </div>
                         </div>
+                        {state[0] !== 'X' && state[0] !== '_' && (
+                            <div className="smallOpt">
+                                <ColorInput
+                                    value={state[1]}
+                                    onChange={val => this.change(1, val)}
+                                />
+                                {state[0] !== 'L' && (
+                                    <div>wire{state[0] === '1' ? '' : 's'}</div>
+                                )}
+                            </div>
+                        )}
                     </div>
-                    {state[0] !== 'X' && state[0] !== '_' && (
-                        <div className="smallOpt">
-                            <ColorInput
-                                value={state[1]}
-                                onChange={val => this.change(1, val)}
-                            />
-                            {state[0] !== 'L' && (
-                                <div>wire{state[0] === '1' ? '' : 's'}</div>
-                            )}
+                    {!disableRemove && (
+                        <div className="pl-2">
+                            <button
+                                className="btn btn-primary"
+                                onClick={onRemove}
+                            >
+                                Remove
+                            </button>
                         </div>
                     )}
                 </div>
-                {!disableRemove && (
-                    <div className="pl-2">
-                        <button className="btn btn-primary" onClick={onRemove}>
-                            Remove
-                        </button>
-                    </div>
-                )}
             </div>
         );
     }
