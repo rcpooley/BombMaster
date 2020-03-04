@@ -5,6 +5,7 @@ import Home from './components/home';
 import SimpleWires from './components/simpleWires/index';
 import Button from './components/button/index';
 import Keypads from './components/keypads/index';
+import WhosOnFirst from './components/whosOnFirst/index';
 import Memory from './components/memory/index';
 import ComplicatedWires from './components/complicatedWires/index';
 import Mazes from './components/mazes/index';
@@ -30,6 +31,11 @@ class Router extends React.Component {
                     path: '/keypads',
                     name: 'Keypads',
                     component: Keypads
+                },
+                {
+                    path: '/whosonfirst',
+                    name: "Who's on First",
+                    component: WhosOnFirst
                 },
                 {
                     path: '/memory',

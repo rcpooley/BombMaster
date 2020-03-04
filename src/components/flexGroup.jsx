@@ -8,8 +8,7 @@ class FlexGroup extends React.Component {
             childClass,
             className,
             inline,
-            center,
-            space
+            center
         } = this.props;
         return (
             <div
