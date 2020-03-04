@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Props: {options: [{id, label}], selected, onSelect, height}
+ * Props: {options: [{id, label}], selected, onSelect, height, inline}
  */
 class OptionsBar extends React.Component {
     componentDidMount() {
@@ -24,14 +24,14 @@ class OptionsBar extends React.Component {
     }
 
     render() {
-        let { options, selected, onSelect, height } = this.props;
+        let { options, selected, onSelect, height, inline } = this.props;
 
         if (!selected) {
             selected = this.parseOption(options[0], 0).id;
         }
 
         return (
-            <div className="optionsBar">
+            <div className={`optionsBar${inline ? ' inline' : ''}`}>
                 {options.map((o, idx) => {
                     const { id, label } = this.parseOption(o, idx);
                     return (

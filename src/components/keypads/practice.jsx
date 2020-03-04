@@ -59,14 +59,11 @@ class Practice extends React.Component {
                 : -1;
         let nextID = null;
         for (let i = lastIdx + 1; i < set.length; i++) {
-            console.log(i, set[i], symbols);
             if (symbols.includes(set[i])) {
                 nextID = set[i];
                 break;
             }
         }
-
-        console.log(selected, nextID, id);
 
         if (id === nextID) {
             if (selected.length === numSymbols - 1) {
