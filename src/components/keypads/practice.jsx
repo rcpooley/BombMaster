@@ -1,5 +1,6 @@
 import React from 'react';
 import P from '../paragraph';
+import H from '../heading';
 import OptionsBar from '../optionsBar';
 import rawSets from './sets';
 import Util from '../../util';
@@ -110,21 +111,17 @@ class Practice extends React.Component {
         return (
             <div>
                 <P>
-                    <strong>
-                        <div className="text-center">
-                            How many symbols do you want to see?
-                        </div>
-                        <OptionsBar
-                            options={[
-                                { id: 4, label: '4' },
-                                { id: 5, label: '5' },
-                                { id: 6, label: '6' },
-                                { id: 7, label: '7' }
-                            ]}
-                            onSelect={numSymbols => this.onSelect(numSymbols)}
-                            selected={numSymbols}
-                        />
-                    </strong>
+                    <H center={true}>How many symbols do you want to see?</H>
+                    <OptionsBar
+                        options={[
+                            { id: 4, label: '4' },
+                            { id: 5, label: '5' },
+                            { id: 6, label: '6' },
+                            { id: 7, label: '7' }
+                        ]}
+                        onSelect={numSymbols => this.onSelect(numSymbols)}
+                        selected={numSymbols}
+                    />
                 </P>
                 {this.renderSymbols()}
             </div>

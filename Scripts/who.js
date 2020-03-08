@@ -57,4 +57,8 @@ words.forEach((word, idx) => {
     }
 });
 
-console.log(Object.keys(lists).length);
+const lower = {};
+Object.keys(lists).forEach(w => {
+    lower[w.toLowerCase()] = lists[w].map(o => o.toLowerCase());
+});
+console.log(lower);

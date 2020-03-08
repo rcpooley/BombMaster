@@ -20,11 +20,11 @@ class Module extends React.Component {
                                 return (
                                     <div key={idx2} className="wordWrap">
                                         <div
-                                            className={
+                                            className={`whoButton${
                                                 pos === incorrect
-                                                    ? 'incorrect'
+                                                    ? ' incorrect'
                                                     : ''
-                                            }
+                                            }`}
                                             onClick={() => onClick(pos)}
                                         >
                                             {w.toUpperCase()}
