@@ -12,6 +12,12 @@ class Util {
         );
     }
 
+    /**
+     * Optionally exclude min
+     *
+     * @param {*} min Min (inclusive)
+     * @param {*} max Max (exclusive)
+     */
     static rnd(min, max) {
         if (max == null) {
             max = min;
