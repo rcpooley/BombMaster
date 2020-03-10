@@ -152,11 +152,9 @@ class Gen {
     }
 
     static getConfigForConstraints(constraints, numWires) {
-        const colorRanges = Util.randomize(
-            Gen.getColorRanges(constraints, numWires)
-        );
+        const colorRanges = Gen.getColorRanges(constraints, numWires);
 
-        const colors = Gen.findColors({}, colorRanges, numWires);
+        const colors = Gen.findColors(colorRanges, numWires);
         if (!colors) {
             throw new Error('colors cannot be null');
         }
@@ -190,7 +188,6 @@ class Gen {
         if (lastYes && wires[wires.length - 1] !== lastYes) {
             const idx = wires.indexOf(lastYes);
             if (idx < 0) {
-                console.log(constraints, colorRanges, colors);
                 throw new Error(
                     `${lastYes} must be present to be the last wire`
                 );
@@ -223,40 +220,33 @@ class Gen {
         };
     }
 
-    static findColors(base, remaining, numWires) {
-        if (remaining.length === 0) {
-            return base;
-        }
-        let [c, min, max] = remaining[0];
-        const curCount = Gen.count(base);
-        max = Math.min(max, numWires - curCount);
-        if (remaining.length === 1) {
-            const newMin = numWires - curCount;
-            if (min <= newMin) {
-                min = newMin;
-            } else {
-                return null;
-            }
-        }
-        if (min > max) {
-            return null;
-        }
+    static findColors(colorRanges, numWires) {
+        const count = {};
+        let total = 0;
+        const remaining = {};
 
-        const nums = Util.randomize([...Array(max + 1).keys()].slice(min));
-        for (let i = 0; i < nums.length; i++) {
-            const newBase = JSON.parse(JSON.stringify(base));
-            newBase[c] = nums[i];
-            if (Gen.count(newBase) > numWires) {
-                continue;
+        // Initialize count to 0
+        COLORS.forEach(c => {
+            count[c] = colorRanges[c].min;
+            total += count[c];
+            remaining[c] = colorRanges[c].max - count[c];
+            if (remaining[c] === 0) {
+                delete remaining[c];
             }
+        });
 
-            const check = Gen.findColors(newBase, remaining.slice(1), numWires);
-            if (check) {
-                return check;
+        while (total < numWires) {
+            const cols = Object.keys(remaining);
+            const c = cols[Util.rnd(cols.length)];
+            count[c]++;
+            total++;
+            remaining[c]--;
+            if (remaining[c] === 0) {
+                delete remaining[c];
             }
         }
 
-        return null;
+        return count;
     }
 
     static count(colors) {
@@ -266,12 +256,12 @@ class Gen {
     }
 
     static getColorRanges(constraints, numWires) {
-        const ranges = [];
+        const ranges = {};
         COLORS.forEach(c => {
             const cc = constraints[c] || {};
             const min = 'min' in cc ? cc.min : 0;
             const max = 'max' in cc ? cc.max : numWires;
-            ranges.push([c, min, max]);
+            ranges[c] = { min, max };
         });
         return ranges;
     }
@@ -449,7 +439,13 @@ class Gen {
         return base;
     }
 
-    static getConditionIdx({ wires, odd }, conds) {
+    static getCut(config) {
+        const idx = Gen.getConditionIdx(config);
+        return CONDITIONS[config.wires.length][idx].cut;
+    }
+
+    static getConditionIdx({ wires, odd }) {
+        const conds = CONDITIONS[wires.length];
         const count = {};
         COLORS.forEach(c => (count[c] = 0));
         wires.forEach(c => (count[c] += 1));
