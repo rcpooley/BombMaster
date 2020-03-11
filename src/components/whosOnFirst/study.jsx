@@ -25,20 +25,20 @@ const group1Sentences = {
 };
 
 const group2Sentences = {
-    You: 'You sure? Are your "you\'re next"\'s hu-urt? Help wanted.',
-    'You are': '',
-    Your: 'Your uh are huh. (your)',
+    You: 'You sure? Are your "you\'re next"\'s hu-urt hot water',
+    'You are': 'You are your next live hundred weapons d-uh hold you',
+    Your: 'Your [uh are huh]. (your). | Think of a uh sandwich',
     "You're": "You're you. (you're)",
     UR: 'UR-DU (ur)',
-    U: '',
+    U: "1(U) hundred sacrifices narrate when you're urging under duress",
     'Uh huh': 'Uh huh',
-    'Uh uh': "UH-UR, U, you are. You're next. (uh uh)",
-    'What?': '',
-    Done: '',
+    'Uh uh': "UH: 2(ur), 1(u) 2(you are) 5(You're) next. (uh uh)",
+    'What?': "When you hold 5(you're), your 1(u) decision un-leashes art",
+    Done: "Down south hun needs what's [your ur you're] hidden leaf",
     Next: "Next what's hu-uh. Your hold sucks. (next)",
-    Hold: '',
-    Sure: '',
-    Like: ''
+    Hold: "Holds are 1(u) & done under you 2(ur) soup water 5(you're)",
+    Sure: "SAD (sure, are, done) -ly you're you. Holds hu-urt. (sure)",
+    Like: "Like you're nice 1(u) 2(ur) happy dance [uh what huh]"
 };
 
 class Study extends React.Component {
@@ -209,12 +209,20 @@ class Study extends React.Component {
                         freedom when choosing words to represent those words.
                         <table className="whoSentence">
                             <tbody>
-                                {group2.map(w => (
-                                    <tr key={w}>
-                                        <td>{w}</td>
-                                        <td>{group2Sentences[w]}</td>
-                                    </tr>
-                                ))}
+                                {group2.map(w => {
+                                    const [sentence, desc] = group2Sentences[
+                                        w
+                                    ].split(' | ');
+                                    return (
+                                        <tr key={w}>
+                                            <td>{w}</td>
+                                            <td>
+                                                {sentence}
+                                                {desc && <i> {desc}</i>}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </P>

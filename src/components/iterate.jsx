@@ -1,4 +1,5 @@
 import React from 'react';
+import P from './paragraph';
 
 function iterate(Component, list) {
     class C extends React.Component {
@@ -8,13 +9,23 @@ function iterate(Component, list) {
             this.state = this.nextState();
         }
 
-        nextState() {
-            let remaining;
-            if (this.state) {
-                remaining = this.state.remaining;
-            }
-            if (remaining == null || remaining.length === 0) {
+        nextState(restart) {
+            const state = this.state || {};
+            let strikes = state.strikes || 0;
+
+            let { remaining } = state;
+            if (remaining == null) {
                 remaining = list.slice();
+            }
+
+            if (remaining.length === 0) {
+                if (!restart) {
+                    return {
+                        item: null
+                    };
+                }
+                remaining = list.slice();
+                strikes = 0;
             }
 
             const idx = Math.floor(Math.random() * remaining.length);
@@ -22,21 +33,51 @@ function iterate(Component, list) {
 
             return {
                 remaining,
-                item
+                item,
+                strikes
             };
         }
 
         render() {
-            const { item, remaining } = this.state;
+            const { item, remaining, strikes } = this.state;
 
             return (
-                <Component
-                    item={item}
-                    next={cb => this.setState(this.nextState(), cb)}
-                    idx={list.length - remaining.length - 1}
-                    list={list}
-                    {...this.props}
-                />
+                <div className="iterate">
+                    <P className="text-center">
+                        <div className="headerBox">
+                            Strikes: <span className="strikes">{strikes}</span>
+                            <br />
+                            {list.length - remaining.length}/{list.length}
+                        </div>
+                    </P>
+                    {item === null ? (
+                        <div className="text-center">
+                            <button
+                                onClick={() =>
+                                    this.setState(this.nextState(true))
+                                }
+                            >
+                                Restart
+                            </button>
+                        </div>
+                    ) : (
+                        <Component
+                            item={item}
+                            next={cb => {
+                                const nState = this.nextState(false);
+                                this.setState(
+                                    nState,
+                                    nState.item !== null ? cb : undefined
+                                );
+                            }}
+                            onStrike={() =>
+                                this.setState({ strikes: strikes + 1 })
+                            }
+                            list={list}
+                            {...this.props}
+                        />
+                    )}
+                </div>
             );
         }
     }

@@ -98,6 +98,21 @@ canvas {
     }
 }
 
+.iterate {
+    .strikes {
+        color: red;
+        font-weight: bold;
+    }
+
+    .headerBox {
+        border: 1px solid black;
+        display: inline-block;
+        padding: 5px;
+        min-width: 100px;
+        margin-bottom: 10px;
+    }
+}
+
 #router {
     width: 100%;
     height: 100%;

@@ -31,7 +31,7 @@ class Tester extends React.Component {
     }
 
     clickWord(click) {
-        const { item, next } = this.props;
+        const { item, next, onStrike } = this.props;
         const { clicked } = this.state;
         const list = wordLists[item];
         if (click === list[clicked.length]) {
@@ -45,7 +45,7 @@ class Tester extends React.Component {
                 this.setState({ clicked: newClicked, incorrect: null });
             }
         } else {
-            this.setState({ incorrect: click });
+            this.setState({ incorrect: click }, onStrike);
         }
     }
 
@@ -53,10 +53,7 @@ class Tester extends React.Component {
         const { item, idx, list } = this.props;
         const { incorrect, clicked, group } = this.state;
         return (
-            <P>
-                <P className="text-center">
-                    {idx + 1}/{list.length}
-                </P>
+            <div>
                 <P className="displayWord">{item.toUpperCase()}</P>
                 <P>
                     <div className="words">
@@ -78,7 +75,7 @@ class Tester extends React.Component {
                     </div>
                     <div className="text-center">Click the words in order</div>
                 </P>
-            </P>
+            </div>
         );
     }
 }
@@ -120,7 +117,9 @@ class PracticeStep2 extends React.Component {
                         onSelect={mode => this.setState({ mode })}
                     />
                 </P>
-                <C />
+                <P>
+                    <C />
+                </P>
             </div>
         );
     }

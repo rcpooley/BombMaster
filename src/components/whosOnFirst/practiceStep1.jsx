@@ -19,22 +19,19 @@ class PracticeStep1 extends React.Component {
     }
 
     click(pos) {
-        const { item, next } = this.props;
+        const { item, next, onStrike } = this.props;
         if (pos === posMap[item]) {
             this.setState({ incorrect: null }, next);
         } else {
-            this.setState({ incorrect: pos });
+            this.setState({ incorrect: pos }, onStrike);
         }
     }
 
     render() {
-        const { item, idx, list } = this.props;
+        const { item, list } = this.props;
         const { incorrect } = this.state;
         return (
             <div>
-                <P className="text-center">
-                    {idx + 1}/{list.length}
-                </P>
                 <Module
                     display={item}
                     words={['', '', '', '', '', '']}
