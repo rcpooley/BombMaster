@@ -3,7 +3,7 @@ import P from '../paragraph';
 import H from '../heading';
 import FlexGroup from '../flexGroup';
 import Util from '../../util';
-import { displayWords, group1 } from './words';
+import { displayWords, group1, group2 } from './words';
 
 const empty = '<\u00A0\u00A0\u00A0>';
 
@@ -18,10 +18,27 @@ const group1Sentences = {
     Uhhh: "Under-read notes lack what's on your right, no pass",
     Left: 'Right left',
     Right: "Right, you're not readily prepared. No way: what right?",
-    Middle: "Middle Brazil reads on what's not perfect, no wait left",
+    Middle: "Mid Brazil reads on what's not perfect, no wait left",
     Okay: 'Okay mom, no friends yelling until nothing waits on',
     Wait: "Wait until no-body's on your left, first press what",
     Press: 'Pressing right makes you ready please'
+};
+
+const group2Sentences = {
+    You: 'You sure? Are your "you\'re next"\'s hu-urt? Help wanted.',
+    'You are': '',
+    Your: 'Your uh are huh. (your)',
+    "You're": "You're you. (you're)",
+    UR: 'UR-DU (ur)',
+    U: '',
+    'Uh huh': 'Uh huh',
+    'Uh uh': "UH-UR, U, you are. You're next. (uh uh)",
+    'What?': '',
+    Done: '',
+    Next: "Next what's hu-uh. Your hold sucks. (next)",
+    Hold: '',
+    Sure: '',
+    Like: ''
 };
 
 class Study extends React.Component {
@@ -161,16 +178,41 @@ class Study extends React.Component {
                         the word to press. The first word of the sentence
                         corresponds to the label from step 1. For no/nothing,
                         ready/right, and wait/what, I tried to use the actual
-                        word in the sentence since it could be ambiguous which
-                        one I'm referring to. I recommend coming up with
-                        sentences that are the easiest for you to memorize, here
-                        are the ones I use:
+                        word or a similar sounding word in the sentence since it
+                        could be ambiguous which one I'm referring to. I
+                        recommend coming up with sentences that are the easiest
+                        for you to memorize, here are the ones I use:
                         <table className="whoSentence">
                             <tbody>
                                 {group1.map(w => (
                                     <tr key={w}>
                                         <td>{w}</td>
                                         <td>{group1Sentences[w]}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </P>
+                    <P>
+                        <H>Group 2</H>
+                        <div className="d-flex justify-content-center">
+                            <ol>
+                                {group2.map(w => (
+                                    <li key={w}>{w}</li>
+                                ))}
+                            </ol>
+                        </div>
+                        For group 2, it is a little more challenging to come up
+                        with sentences since there are four words that start
+                        with U and four words that start with Y. The other 6
+                        words start with different letters, so we have more
+                        freedom when choosing words to represent those words.
+                        <table className="whoSentence">
+                            <tbody>
+                                {group2.map(w => (
+                                    <tr key={w}>
+                                        <td>{w}</td>
+                                        <td>{group2Sentences[w]}</td>
                                     </tr>
                                 ))}
                             </tbody>

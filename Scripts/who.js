@@ -40,12 +40,18 @@ raw.split('\n').forEach(line => {
     lists[word] = list.slice(0, Math.min(9, list.indexOf(word) + 1));
     words.push(word);
 });
+const group1 = words.slice(0, 14);
+const group2 = words.slice(14);
 
 const lengths = {};
+const g2len = {};
 Object.keys(lists).forEach(word => {
     const list = lists[word];
     const len = list.length;
     lengths[len] = (lengths[len] || 0) + 1;
+    if (group2.includes(word)) {
+        g2len[len] = (g2len[len] || 0) + 1;
+    }
 });
 
 words.forEach((word, idx) => {
@@ -57,8 +63,31 @@ words.forEach((word, idx) => {
     }
 });
 
-const lower = {};
-Object.keys(lists).forEach(w => {
-    lower[w.toLowerCase()] = lists[w].map(o => o.toLowerCase());
+function intersect(arr1, arr2) {
+    return arr1.filter(w => arr2.includes(w));
+}
+
+const lookForU = group2.filter(w => w.startsWith('U'));
+const lookForY = group2.filter(w => w.startsWith('Y'));
+const lookFor = lookForU.concat(lookForY);
+
+const group2Easy = group2.filter(w => lists[w].length <= 7);
+const group2Hard = group2.filter(w => !group2Easy.includes(w));
+
+const countList = {};
+group2.forEach(w => {
+    countList[w] = group2Hard.filter(t => lists[t].includes(w));
 });
-console.log(lower);
+
+const order = group2.slice();
+order.sort((a, b) => countList[a].length - countList[b].length);
+order.forEach(w => {
+    console.log(
+        countList[w].length,
+        w,
+        ' '.repeat(10 - w.length),
+        countList[w]
+    );
+});
+
+console.log(group2Easy);
