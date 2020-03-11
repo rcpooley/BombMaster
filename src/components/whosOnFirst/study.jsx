@@ -13,7 +13,15 @@ const group1Sentences = {
     No: "No- body understands waiting for what's really right: yes, nothing.",
     Blank: 'Blank wait right on my bike.',
     Nothing: "Nothing's up right on my yacht but no people left",
-    Yes: 'Yes okay right: understand my friend what people read: nothing.'
+    Yes: 'Yes okay right: understand my friend what people read: nothing.',
+    What: 'Uhhh what',
+    Uhhh: "Under-read notes lack what's on your right, no pass",
+    Left: 'Right left',
+    Right: "Right, you're not readily prepared. No way: what right?",
+    Middle: "Middle Brazil reads on what's not perfect, no wait left",
+    Okay: 'Okay mom, no friends yelling until nothing waits on',
+    Wait: "Wait until no-body's on your left, first press what",
+    Press: 'Pressing right makes you ready please'
 };
 
 class Study extends React.Component {
