@@ -34,6 +34,10 @@ class Util {
         }
         return r;
     }
+
+    static randomItem(arr) {
+        return arr[Util.rnd(arr.length)];
+    }
 }
 
 export default Util;

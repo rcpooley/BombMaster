@@ -1,13 +1,7 @@
 import React from 'react';
 import Module from './module';
 import iterate from '../iterate';
-import P from '../paragraph';
-import { displayPositions } from './words';
-
-const posMap = {};
-displayPositions.forEach((list, idx) => {
-    list.forEach(w => (posMap[w] = idx));
-});
+import { posMap } from './words';
 
 class PracticeStep1 extends React.Component {
     constructor(props) {

@@ -50,7 +50,7 @@ class Tester extends React.Component {
     }
 
     render() {
-        const { item, idx, list } = this.props;
+        const { item } = this.props;
         const { incorrect, clicked, group } = this.state;
         return (
             <div>

@@ -26,6 +26,11 @@ export const displayPositions = [
     displayWords['Bottom Right']
 ];
 
+export const posMap = {};
+displayPositions.forEach((list, idx) => {
+    list.forEach(w => (posMap[w] = idx));
+});
+
 export const group1 = [
     'Ready',
     'First',
@@ -251,4 +256,11 @@ export const wordLists = {
     ]
 };
 
-export default { displayWords, displayPositions, group1, group2, wordLists };
+export default {
+    displayWords,
+    displayPositions,
+    posMap,
+    group1,
+    group2,
+    wordLists
+};
