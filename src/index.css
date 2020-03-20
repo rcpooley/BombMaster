@@ -260,6 +260,74 @@ canvas {
     }
 }
 
+#thebutton {
+    .buttonRender {
+        border: 1px solid black;
+        border-radius: 50%;
+        display: inline-flex;
+        width: 100px;
+        height: 100px;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        cursor: default;
+
+        &.B {
+            background-color: black;
+            color: white;
+        }
+
+        &.U {
+            background-color: blue;
+            color: white;
+        }
+
+        &.R {
+            background-color: red;
+            color: white;
+        }
+
+        &.W {
+            background-color: white;
+            color: black;
+        }
+
+        &.Y {
+            background-color: yellow;
+            color: black;
+        }
+    }
+
+    .buttonRow button {
+        margin: 0 5px;
+    }
+
+    .strip {
+        border: 1px solid black;
+        display: inline-block;
+        padding: 2px 0;
+        width: 120px;
+        font-weight: bold;
+
+        &.Yellow {
+            background-color: yellow;
+        }
+
+        &.Red {
+            background-color: red;
+        }
+
+        &.White {
+            background-color: white;
+        }
+
+        &.Blue {
+            background-color: blue;
+            color: white;
+        }
+    }
+}
+
 #keypads {
     .symbol {
         position: relative;
