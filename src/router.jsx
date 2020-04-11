@@ -5,6 +5,7 @@ import Home from './components/home';
 import SimpleWires from './components/simpleWires/index';
 import Button from './components/button/index';
 import Keypads from './components/keypads/index';
+import SimonSays from './components/simonSays/index';
 import WhosOnFirst from './components/whosOnFirst/index';
 import Memory from './components/memory/index';
 import ComplicatedWires from './components/complicatedWires/index';
@@ -20,39 +21,44 @@ class Router extends React.Component {
                 {
                     path: '/simplewires',
                     name: 'Simple Wires',
-                    component: SimpleWires
+                    component: SimpleWires,
                 },
                 {
                     path: '/button',
                     name: 'Button',
-                    component: Button
+                    component: Button,
                 },
                 {
                     path: '/keypads',
                     name: 'Keypads',
-                    component: Keypads
+                    component: Keypads,
+                },
+                {
+                    path: '/simonsays',
+                    name: 'Simon Says',
+                    component: SimonSays,
                 },
                 {
                     path: '/whosonfirst',
                     name: "Who's on First",
-                    component: WhosOnFirst
+                    component: WhosOnFirst,
                 },
                 {
                     path: '/memory',
                     name: 'Memory',
-                    component: Memory
+                    component: Memory,
                 },
                 {
                     path: '/complicatedwires',
                     name: 'Complicated Wires',
-                    component: ComplicatedWires
+                    component: ComplicatedWires,
                 },
                 {
                     path: '/mazes',
                     name: 'Mazes',
-                    component: Mazes
-                }
-            ]
+                    component: Mazes,
+                },
+            ],
         };
     }
 
@@ -64,7 +70,7 @@ class Router extends React.Component {
                 </div>
                 <div className="flex-grow-1 overflow-auto">
                     <Switch>
-                        {this.state.routes.map(r => (
+                        {this.state.routes.map((r) => (
                             <Route
                                 key={r.path}
                                 path={r.path}
