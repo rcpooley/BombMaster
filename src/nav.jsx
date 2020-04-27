@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 class Nav extends React.Component {
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav className="navbar navbar-expand-xl navbar-dark bg-dark">
                 <a className="navbar-brand" href="#">
                     Bomb Master
                 </a>
@@ -25,7 +25,7 @@ class Nav extends React.Component {
                     id="navbarSupportedContent"
                 >
                     <ul className="navbar-nav mr-auto">
-                        {this.props.routes.map(r => (
+                        {this.props.routes.map((r) => (
                             <li
                                 key={r.path}
                                 className={`nav-item`}
