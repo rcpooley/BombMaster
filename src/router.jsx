@@ -9,6 +9,7 @@ import SimonSays from './components/simonSays/index';
 import WhosOnFirst from './components/whosOnFirst/index';
 import Memory from './components/memory/index';
 import ComplicatedWires from './components/complicatedWires/index';
+import WireSequence from './components/wireSequence/index';
 import Mazes from './components/mazes/index';
 
 class Router extends React.Component {
@@ -52,6 +53,11 @@ class Router extends React.Component {
                     path: '/complicatedwires',
                     name: 'Complicated Wires',
                     component: ComplicatedWires,
+                },
+                {
+                    path: '/wiresequences',
+                    name: 'Wire Sequences',
+                    component: WireSequence,
                 },
                 {
                     path: '/mazes',
