@@ -1,16 +1,17 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import Nav from './nav';
-import Home from './components/home';
-import SimpleWires from './components/simpleWires/index';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Button from './components/button/index';
-import Keypads from './components/keypads/index';
-import SimonSays from './components/simonSays/index';
-import WhosOnFirst from './components/whosOnFirst/index';
-import Memory from './components/memory/index';
 import ComplicatedWires from './components/complicatedWires/index';
-import WireSequence from './components/wireSequence/index';
+import Home from './components/home';
+import Keypads from './components/keypads/index';
 import Mazes from './components/mazes/index';
+import Memory from './components/memory/index';
+import MorseCode from './components/morseCode';
+import SimonSays from './components/simonSays/index';
+import SimpleWires from './components/simpleWires/index';
+import WhosOnFirst from './components/whosOnFirst/index';
+import WireSequence from './components/wireSequence/index';
+import Nav from './nav';
 
 class Router extends React.Component {
     constructor(props) {
@@ -48,6 +49,11 @@ class Router extends React.Component {
                     path: '/memory',
                     name: 'Memory',
                     component: Memory,
+                },
+                {
+                    path: '/morsecode',
+                    name: 'Morse Code',
+                    component: MorseCode,
                 },
                 {
                     path: '/complicatedwires',
