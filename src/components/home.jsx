@@ -45,6 +45,16 @@ class Home extends React.Component {
                             </li>
                         </ul>
                     </P>
+                    <P>
+                        {Util.bold('Contact')}
+                        <br />
+                        Have comments, questions, or feature requests? Send me
+                        an email at{' '}
+                        <a href="mailto:keeptalkinghandbook@gmail.com">
+                            keeptalkinghandbook@gmail.com
+                        </a>
+                        !
+                    </P>
                 </div>
             </MainContainer>
         );
