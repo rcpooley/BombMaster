@@ -6,6 +6,10 @@ docker-build:
 docker-push:
 	docker push rcpooley/bombmaster:latest
 
+.PHONY: docker-all
+docker-all:
+	make docker-build docker-push
+
 .PHONY: kubectl-apply
 kubectl-apply:
 	kubectl apply -f kubernetes/bombmaster.yaml

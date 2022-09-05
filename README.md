@@ -1,5 +1,7 @@
 # BombMaster
 
+Live at https://keeptalkinghandbook.com
+
 ## Developer - first time setup
 
 ### Frontend
