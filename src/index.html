@@ -9,7 +9,7 @@
 
         <link rel="stylesheet" href="ext/bootstrap.min.css" />
 
-        <title>Bomb Master</title>
+        <title>Keep Talking Handbook</title>
 
         <style>
             #root {
@@ -20,6 +20,14 @@
                 height: 100%;
             }
         </style>
+        <script>
+            if (
+                !window.location.host.includes('localhost') &&
+                window.location.href.startsWith('http:')
+            ) {
+                window.location.href = 'https://keeptalkinghandbook.com';
+            }
+        </script>
     </head>
     <body>
         <div id="root"></div>
