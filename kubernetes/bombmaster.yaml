@@ -28,9 +28,8 @@ metadata:
         app: bombmaster
     name: bombmaster
 spec:
-    type: NodePort
+    type: ClusterIP
     ports:
         - port: 8080
-          nodePort: 30123
     selector:
         app: bombmaster
